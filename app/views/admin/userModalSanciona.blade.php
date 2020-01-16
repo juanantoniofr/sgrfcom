@@ -31,7 +31,7 @@
                     
                         <label for="motivo-sancion"  class="control-label" >Motivo sanción: </label> 
                         
-                        <textarea name="motivoSancion" class="form-control" rows="10">
+                        <textarea name="motivoSancion" class="form-control" rows="10" id="motivo-sancion">
                         </textarea>
 
                         <div class="checkbox" id="enviar-correo">
@@ -57,7 +57,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Salvar</button>
+                <button type="submit" class="btn btn-primary" id="salvaSancion">Salvar</button>
             </div><!-- .modal-footer -->    
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog .modal-lg-->

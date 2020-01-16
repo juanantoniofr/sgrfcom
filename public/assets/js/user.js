@@ -15,9 +15,10 @@ $(function(e){
         e.stopPropagation();
 
         //set default values
-        $( "#datepickerFin" ).datepicker( "setDate", new Date() );
         $('div#modal-sanciona-usuario span#nombre').html( $(this).data('nombre'));
         $('div#modal-sanciona-usuario span#correo').html( $(this).data('correo'));
+
+        $( "#datepickerFin" ).datepicker( "setDate", new Date() );
         
         $('div#modal-sanciona-usuario div#enviar-correo').fadeOut('3000');
         if ( $(this).data('correo') != '' ) {
@@ -26,13 +27,28 @@ $(function(e){
             $('div#modal-sanciona-usuario #envia-correo').attr('checked', true);
         }
         
-        
-
-
-        //$('a#btnEliminar').data('id',$(this).data('id'));
-        //$('a#btnEliminar').attr('href', 'eliminaUser.html' + '?'+'id='+$(this).data('id'));
-        
+        $('div#modal-sanciona-usuario input[name="userId]').val( $(this).data('id'));        
         $('#modal-sanciona-usuario').modal('show');
+    });
+
+    $('div#modal-sanciona-usuario #salvaSancion').on('click',function(e){
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        $.ajax({
+            type: "GET",
+            url: "ajaxSancionaUsuario", /* terminar en controllador */
+            data: {userId:$('div#modal-sanciona-usuario input[name="userId]').val(),motivoSancion:$('div#modal-sanciona-usuario motivo-sancion').val(),f_fin:$('div#modal-sanciona-usuario input[name="f_fin"]').val()},
+            success: function($respuesta){
+                
+                console.log($respuesta);
+            },
+            error: function(xhr, ajaxOptions, thrownError){
+                    hideGifEspera();
+                    alert(xhr.responseText + ' (codeError: ' + xhr.status) +')';
+            }
+        });
     });
 
     $("#addUser").on('click',function(e){

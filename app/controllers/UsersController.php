@@ -12,6 +12,34 @@ class UsersController extends BaseController {
     return View::make('admin.index')->with(compact('notificaciones'))->nest('dropdown','admin.dropdown');
   }
 
+    /**
+        * llamada ajax, estable sanción a identificado su Id
+        * 
+        * @param 
+        *
+        * @return $respuesta :View::make 
+    */
+
+    public function ajaxSancionaUsuario(){
+
+        //Input
+        $intIdUser = Input::get('userId','');
+        $strMotivoSancion = Input::get('motivoSancion','');
+        $strF_fin = Input::get('f_fin','');
+
+        //Ouput
+        $resultado = array( 'msg' => '',
+                            'exito' => false;
+                        );
+        //Validate Inputs
+        
+        $resultado['exito'] = true;
+        $resultado['msg'] = 'UsuerID = ' . $intIdUser . ', strMotivoSancion = ' . $strMotivoSancion . ', fecha fin = ' . $strF_fin . ', id user login = ' . Auth::user()->id;
+
+        return $resultado;
+
+    }
+
   public function listUsers(){
       
       $sortby = Input::get('sortby','username');
