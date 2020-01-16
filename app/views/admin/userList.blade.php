@@ -156,17 +156,21 @@
                 </thead>
                 
                 <tbody>
+                    
                     @foreach($usuarios as $user)
                         
                         <tr>
                             <td>
                               
-                                @if($user->estado && !$user->caducado()) <i class="fa fa-check fa-fw text-success"  title='Cuenta Activa'></i> @endif
-                                @if ($user->caducado()) <i class="fa fa-clock-o fa-fw text-danger" title='Cuenta Caducada'></i> @endif
-                                @if(!$user->estado) <i class="fa fa-minus-circle fa-fw text-danger " title='Cuenta Desactivada'></i> @endif
-                                      
-                             
-                                    
+                                @if($user->estado && !$user->caducado())
+                                    <i class="fa fa-check fa-fw text-success"  title='Cuenta Activa'></i>
+                                @endif
+                                @if ($user->caducado())
+                                    <i class="fa fa-clock-o fa-fw text-danger" title='Cuenta Caducada'></i>
+                                @endif
+                                @if(!$user->estado) 
+                                    <i class="fa fa-minus-circle fa-fw text-danger " title='Cuenta Desactivada'></i>
+                                @endif
                             </td>
                             
                             <td>
@@ -178,7 +182,7 @@
                                     <i class="fa fa-pencil fa-fw" title='editar'></i>
                                 </a>
                                 
-                                <a href="" class="sanciona-usuario" data-infousuario="{{$user->nombre}} {{$user->apellidos}} - {{$user->username}} -" data-id="{{$user->id}}">
+                                <a href="" class="sanciona-usuario" data-nombre="{{$user->nombre}} {{$user->apellidos}}" data-uvus="{{$user->username}}" data-correo="{{$user->email}}" data-id="{{$user->id}}">
                                     <i class="fa fa-lock fa-fw" title='Sancionar'></i>
                                 </a>
                                 {{$user->username}}
@@ -244,5 +248,10 @@
 
 @stop
 @section('js')
-<script src="../assets/js/user.js"></script>
+
+    
+    {{ HTML::script('assets/js/datepicker-es.js') }}
+    {{ HTML::script('assets/js/sgr.js')}}
+    {{ HTML::script('assets/js/user.js')}}   
+    
 @stop

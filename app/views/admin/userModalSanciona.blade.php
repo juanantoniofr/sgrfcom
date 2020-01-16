@@ -8,7 +8,10 @@
                 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3><i class="fa fa-lock fa-fw" title='Sancionar'></i>Sancionar usuario </h3>
-                <p>Información usuario, nombre, aplledios, uvus....</p>
+                <div class="text-center alert alert-warning">
+                    <span id="nombre"></span>, 
+                    mail: <span id="correo"></span>
+                </div>
             </div><!-- .modal-header -->
             
             <div class="modal-body">
@@ -25,14 +28,22 @@
                                
           
                     <div class="form-group">
-                        
+                    
                         <label for="motivo-sancion"  class="control-label" >Motivo sanción: </label> 
                         
-                        <div class = "">
-                            <textarea name="motivoSancion" class="form-control" rows="10">
-                                {{--  --}}
-                            </textarea>
+                        <textarea name="motivoSancion" class="form-control" rows="10">
+                        </textarea>
+
+                        <div class="checkbox" id="enviar-correo">
+                            <label>
+                                <input type="checkbox" value="1" id="envia-correo" name="correo">
+                                    Comunicar sanción por correo
+                            </label>
                         </div>
+
+                        <p>
+                            {{Form::label('f_fin', 'Fecha fin')}}: <input name="f_fin" class="form-control" type="text" id="datepickerFin">
+                        </p>
                     </div>
      
 
