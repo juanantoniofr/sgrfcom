@@ -24,7 +24,9 @@
                 
             <table class="table table-hover table-striped">
                 <thead>
+                    
                     <th style="width: 1%;"></th>  
+                    
                     <th  style="width: 15%;">
                         @if ($sortby == 'username' && $order == 'asc') {{
                                 link_to_action(
@@ -38,7 +40,7 @@
                                         )
                                     )
                                }}
-                            @else {{
+                        @else {{
                                 link_to_action(
                                    'UsersController@listUsers',
                                         'Username',
@@ -51,14 +53,12 @@
                                         )
                                     )
                                 }}
-                            @endif
-                            <i class="fa fa-sort fa-fw text-info"></i>
-
-                        </th>
-                       
+                        @endif
+                        <i class="fa fa-sort fa-fw text-info"></i>
+                    </th>
                         
-                        <th style="width: 9%;">
-                            @if ($sortby == 'colectivo' && $order == 'asc') {{
+                    <th style="width: 9%;">
+                        @if ($sortby == 'colectivo' && $order == 'asc') {{
                                 link_to_action(
                                     'UsersController@listUsers',
                                     'Colectivo',
@@ -71,7 +71,7 @@
                                         )
                                     )
                                }}
-                            @else {{
+                        @else {{
                                 link_to_action(
                                    'UsersController@listUsers',
                                         'Colectivo',
@@ -84,11 +84,12 @@
                                         )
                                     )
                                 }}
-                            @endif
-                            <i class="fa fa-sort fa-fw text-info"></i>
-                            </th>
-                            <th style="width: 18%;">
-                            @if ($sortby == 'rol' && $order == 'asc') {{
+                        @endif
+                        <i class="fa fa-sort fa-fw text-info"></i>
+                    </th>
+                            
+                    <th style="width: 18%;">
+                        @if ($sortby == 'rol' && $order == 'asc') {{
                                 link_to_action(
                                     'UsersController@listUsers',
                                     'Perfil',
@@ -101,7 +102,7 @@
                                         )
                                     )
                                }}
-                            @else {{
+                        @else {{
                                 link_to_action(
                                    'UsersController@listUsers',
                                         'Perfil',
@@ -114,11 +115,12 @@
                                         )
                                     )
                                 }}
-                            @endif
-                            <i class="fa fa-sort fa-fw text-info"></i>
-                            </th>
-                             <th style="width: 25%;">
-                         @if ($sortby == 'apellidos' && $order == 'asc') {{
+                        @endif
+                        <i class="fa fa-sort fa-fw text-info"></i>
+                    </th>
+                    
+                    <th style="width: 25%;">
+                        @if ($sortby == 'apellidos' && $order == 'asc') {{
                                 link_to_action(
                                     'UsersController@listUsers',
                                     'Apellidos, nombre',
@@ -131,7 +133,7 @@
                                         )
                                     )
                                }}
-                            @else {{
+                        @else {{
                                 link_to_action(
                                    'UsersController@listUsers',
                                         'Apellidos, nombre',
@@ -144,48 +146,58 @@
                                         )
                                     )
                                 }}
-                            @endif
-                            <i class="fa fa-sort fa-fw text-info"></i>
-                     
-
-                        </th>
-                        <th style="width: 20%;">Observaciones</th>
-                        <th >Última modificación</th>
+                        @endif
+                        <i class="fa fa-sort fa-fw text-info"></i>
+                    </th>
+                    
+                    <th style="width: 20%;">Observaciones</th>
+                    
+                    <th >Última modificación</th>
+                </thead>
+                
+                <tbody>
+                    @foreach($usuarios as $user)
                         
-                    </thead>
-                    <tbody>
-                         @foreach($usuarios as $user)
-                                <tr>
-                                    <td>
+                        <tr>
+                            <td>
+                              
+                                @if($user->estado && !$user->caducado()) <i class="fa fa-check fa-fw text-success"  title='Cuenta Activa'></i> @endif
+                                @if ($user->caducado()) <i class="fa fa-clock-o fa-fw text-danger" title='Cuenta Caducada'></i> @endif
+                                @if(!$user->estado) <i class="fa fa-minus-circle fa-fw text-danger " title='Cuenta Desactivada'></i> @endif
                                       
-                                        @if($user->estado && !$user->caducado()) <i class="fa fa-check fa-fw text-success"  title='Cuenta Activa'></i> @endif
-                                        @if ($user->caducado()) <i class="fa fa-clock-o fa-fw text-danger" title='Cuenta Caducada'></i> @endif
-                                        @if(!$user->estado) <i class="fa fa-minus-circle fa-fw text-danger " title='Cuenta Desactivada'></i> @endif
-                                              
-                                     
-                                            
-                                    </td>
-                                    <td>
-                                        <a href="" class="eliminarUsuario" data-infousuario="{{$user->nombre}} {{$user->apellidos}} - {{$user->username}} -" data-id="{{$user->id}}"><i class="fa fa-trash fa-fw" title='borrar'></i></a>
-                                        <a href="{{route('useredit.html',array('id' => $user->id))}}"><i class="fa fa-pencil fa-fw" title='editar'></i></a>
-                                        {{$user->username}}
-
-                                    </td>
-                                    <td>
-                                        {{$user->colectivo}}
-                                    </td>
-                                    <td>
-                                        {{$user->getRol()}}
-                                        
-                                    </td>
-                                    <td>
-                                        {{$user->apellidos .', '.$user->nombre}}
-                                    </td>
-                                    <td> {{$user->observaciones}}</td>
-                                    <td><small>{{date('d M Y, H:m',strtotime($user->updated_at))}}</small></td>
+                             
                                     
-                                </tr>
-                                 @endforeach
+                            </td>
+                            
+                            <td>
+                                <a href="" class="eliminarUsuario" data-infousuario="{{$user->nombre}} {{$user->apellidos}} - {{$user->username}} -" data-id="{{$user->id}}">
+                                    <i class="fa fa-trash fa-fw" title='borrar'></i>
+                                </a>
+                                
+                                <a href="{{route('useredit.html',array('id' => $user->id))}}">
+                                    <i class="fa fa-pencil fa-fw" title='editar'></i>
+                                </a>
+                                
+                                <a href="" class="sanciona-usuario" data-infousuario="{{$user->nombre}} {{$user->apellidos}} - {{$user->username}} -" data-id="{{$user->id}}">
+                                    <i class="fa fa-lock fa-fw" title='Sancionar'></i>
+                                </a>
+                                {{$user->username}}
+
+                            </td>
+                            
+                            <td> {{ $user->colectivo }} </td>
+                            
+                            <td> {{ $user->getRol() }} </td>
+                            
+                            <td> {{ $user->apellidos .', '.$user->nombre }} </td>
+                            
+                            <td> {{ $user->observaciones }} </td>
+                            
+                            <td>
+                                <small> {{ date('d M Y, H:m',strtotime($user->updated_at)) }} </small>
+                            </td>
+                        </tr>
+                     @endforeach
                     </tbody>
                     </table>
 
@@ -200,7 +212,7 @@
 </div><!-- /.container -->
 
 
-<!-- modal eliminar recurso -->
+<!-- modal eliminar usuario -->
 <div class="modal fade" id="modalEliminaUsuario" tabindex="-1" role="dialog" aria-labelledby="eliminaUsuario" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -226,7 +238,9 @@
     </div><!-- ./.modal-dialog -->
 </div><!-- ./#modalborrarRecurso -->
 
-{{$modalAddUser or ''}}
+{{ $modalAddUser or '' }}
+{{ $modalSancionaUser or '' }}
+
 
 @stop
 @section('js')

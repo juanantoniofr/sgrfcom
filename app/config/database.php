@@ -54,10 +54,10 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => 'servidorfcom.us.es',
+			'host'      => 'localhost',
 			'database'  => 'sgr',
-			'username'  => 'fcomuser',
-			'password'  => 'p4ssfc0mUSER_',
+			'username'  => 'fcom',
+			'password'  => 'SQL.-s3rv3r11w3b',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

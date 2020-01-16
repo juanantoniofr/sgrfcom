@@ -8,6 +8,18 @@ $(function(e){
         $('#modalEliminaUsuario').modal('show');
     });
 
+    $(".sanciona-usuario").on('click',function(e){
+        
+        e.preventDefault();
+        e.stopPropagation();
+
+        //$('#infoUsuario').html( $(this).data('infousuario'));
+        //$('a#btnEliminar').data('id',$(this).data('id'));
+        //$('a#btnEliminar').attr('href', 'eliminaUser.html' + '?'+'id='+$(this).data('id'));
+        
+        $('#modal-sanciona-usuario').modal('show');
+    });
+
    $("#addUser").on('click',function(e){
 		e.preventDefault();
 		$('#modalAddUser').modal('show');

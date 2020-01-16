@@ -36,14 +36,15 @@ App::after(function($request, $response)
 */
 
 //Developed
-/*Route::filter('auth', function()
-{
-	//$user = User::find('30');
-	//Auth::login($user);
-	if (Auth::guest()) return Redirect::to(route('loginsso'));
-	
-});*/
 Route::filter('auth', function()
+{
+	$user = User::find('30');
+	Auth::login($user);
+	//if (Auth::guest()) return Redirect::to(route('loginsso'));
+	
+});
+//Producction
+/*Route::filter('auth', function()
 {
 	
     if (!Cas::isAuthenticated() || !Auth::check()) 
@@ -54,7 +55,7 @@ Route::filter('auth', function()
     	else 
     		
     		return Redirect::to(route('wellcome'));
-});
+});*/
 
 //Comprueba si la petición se realizó por ajax y el usaurio está autenticado
 Route::filter('ajax_check',function(){
