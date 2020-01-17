@@ -46,9 +46,10 @@ $(function(e){
                 console.log($respuesta);
 
                 if ( $respuesta['exito'] == false ){
+                    
                     $('div#modal-sanciona-usuario ul#list-errors').html($respuesta['msg']);
                     $('div#modal-sanciona-usuario div#msg').fadeIn('3500');
-                } 
+                }
                     
             },
             error: function(xhr, ajaxOptions, thrownError){

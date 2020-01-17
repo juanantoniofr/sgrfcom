@@ -9,6 +9,38 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 	protected $softDelete = false;
 	//protected $hidden = array('password');
 
+	/**
+		*
+		* Un (1) usuario (con rol técnico) registra Muchas (*) snaciones
+		*
+	*/
+	public function sancionesRegistradas(){
+
+		return $this->hasMany('Sancion','tecnico_id');
+	}
+
+	/**
+		*
+		* Un (1) usuario (con rol alumno) tiene muchas (*) sanciones
+		*
+	*/
+	public function sanciones(){
+
+		return $this->hasMany('Sancion','user_id');
+	}
+
+	/**
+		*
+		* Comprueba si tiene sanción con f_fin mayor que hoy 
+		*
+		* @return true|false
+	*/
+	public function sancionado(){
+		
+		$strDBToday = strftime('%Y-%m-%d',strtotime('today'));
+		return ( $this->sanciones()->where('f_fin','>=',$strDBToday)->get()->count() > 0 );
+	}
+
 	//devuelve los recurso que valida
 	public function supervisa()
     {

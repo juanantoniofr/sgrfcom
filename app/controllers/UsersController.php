@@ -2,15 +2,15 @@
 
 class UsersController extends BaseController {
  
-  //escritorio admin
-  public function home(){
-    $veractivados = Input::get('veractivados',0);
-    $verdesactivados = Input::get('verdesactivados',0);
+    //escritorio admin
+    public function home(){
+        $veractivados = Input::get('veractivados',0);
+        $verdesactivados = Input::get('verdesactivados',0);
     
     
-    $notificaciones = Notificacion::where('estado','=','abierta')->orderby('id','desc')->get();
-    return View::make('admin.index')->with(compact('notificaciones'))->nest('dropdown','admin.dropdown');
-  }
+        $notificaciones = Notificacion::where('estado','=','abierta')->orderby('id','desc')->get();
+        return View::make('admin.index')->with(compact('notificaciones'))->nest('dropdown','admin.dropdown');
+    }
 
     /**
         * llamada ajax, estable sanción a identificado su Id
@@ -54,13 +54,20 @@ class UsersController extends BaseController {
             return $resultado;
         }
 
-        // 
-        $resultado['exito'] = true;
-        $resultado['msg'] = 'UsuerID = ' . $intIdUser . ', strMotivoSancion = ' . $strMotivoSancion . ', fecha fin = ' . $strF_fin . ', id user login = ' . Auth::user()->id;
+        //estableciendo sanción
+        $sancion = new Sancion(array( 'motivo' => $strMotivoSancion,
+                                      'f_fin' => Date::toDB($strF_fin,'-'),
+                                      'user_id' => $intIdUser,
+                                      'tecnico_id' => Auth::user()->id)
+                                );
+        $user = User::findOrFail($intIdUser);
+        $sancion = $user->sanciones()->save($sancion);
 
-        return $resultado;
+
+        Session::put('msgExitoSancion', 'Sanción establecida con éxito' );
+        return Redirect::back();
         
-
+        
     }
 
   public function listUsers(){

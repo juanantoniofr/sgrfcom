@@ -8,210 +8,226 @@
 
 @section('content')
 <div class="container">
-<div class="row">
-    {{$menuUsuarios or ''}}
-</div>
-
-
-<div class="row">
     
-    <div class="panel panel-info">
-            
-        <div class="panel-heading"><h2><i class="fa fa-list fa-fw"></i> Listado</h2></div>
+    <div class="row">
+        {{$menuUsuarios or ''}}
+    </div>
 
-        <div class="panel-body">
-                        
+
+    <div class="row">
+        
+        <div class="panel panel-info">
                 
-            <table class="table table-hover table-striped">
-                <thead>
+            <div class="panel-heading"><h2><i class="fa fa-list fa-fw"></i> Listado</h2></div>
+
+            <div class="panel-body">
+                
+                @if (!empty(Session::get('msgExitoSancion')))
                     
-                    <th style="width: 1%;"></th>  
+                    <div class="alert alert-success alert-dismissable">
                     
-                    <th  style="width: 15%;">
-                        @if ($sortby == 'username' && $order == 'asc') {{
-                                link_to_action(
-                                    'UsersController@listUsers',
-                                    'Username',
-                                    array(
-                                        'sortby' => 'username',
-                                        'order' => 'desc',
-                                        'veractivados' => $veractivados,
-                                        'verdesactivados' => $verdesactivados,
-                                        )
-                                    )
-                               }}
-                        @else {{
-                                link_to_action(
-                                   'UsersController@listUsers',
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <p>{{ Session::pull('msgExitoSancion') }}</p> 
+                    </div>
+                @endif   
+                
+                <table class="table table-hover table-striped">
+                    
+                    <thead>
+                        
+                        <th style="width: 1%;"></th>  
+                        
+                        <th  style="width: 15%;">
+                            @if ($sortby == 'username' && $order == 'asc') {{
+                                    link_to_action(
+                                        'UsersController@listUsers',
                                         'Username',
                                         array(
                                             'sortby' => 'username',
-                                            'order' => 'asc',
+                                            'order' => 'desc',
                                             'veractivados' => $veractivados,
                                             'verdesactivados' => $verdesactivados,
-                                            
+                                            )
                                         )
-                                    )
-                                }}
-                        @endif
-                        <i class="fa fa-sort fa-fw text-info"></i>
-                    </th>
-                        
-                    <th style="width: 9%;">
-                        @if ($sortby == 'colectivo' && $order == 'asc') {{
-                                link_to_action(
-                                    'UsersController@listUsers',
-                                    'Colectivo',
-                                    array(
-                                        'sortby' => 'colectivo',
-                                        'order' => 'desc',
-                                        'veractivados' => $veractivados,
-                                        'verdesactivados' => $verdesactivados,
-                                        
+                                   }}
+                            @else {{
+                                    link_to_action(
+                                       'UsersController@listUsers',
+                                            'Username',
+                                            array(
+                                                'sortby' => 'username',
+                                                'order' => 'asc',
+                                                'veractivados' => $veractivados,
+                                                'verdesactivados' => $verdesactivados,
+                                                
+                                            )
                                         )
-                                    )
-                               }}
-                        @else {{
-                                link_to_action(
-                                   'UsersController@listUsers',
+                                    }}
+                            @endif
+                            <i class="fa fa-sort fa-fw text-info"></i>
+                        </th>
+                            
+                        <th style="width: 9%;">
+                            @if ($sortby == 'colectivo' && $order == 'asc') {{
+                                    link_to_action(
+                                        'UsersController@listUsers',
                                         'Colectivo',
                                         array(
                                             'sortby' => 'colectivo',
-                                            'order' => 'asc',
+                                            'order' => 'desc',
                                             'veractivados' => $veractivados,
                                             'verdesactivados' => $verdesactivados,
-                                        
+                                            
+                                            )
                                         )
-                                    )
-                                }}
-                        @endif
-                        <i class="fa fa-sort fa-fw text-info"></i>
-                    </th>
-                            
-                    <th style="width: 18%;">
-                        @if ($sortby == 'rol' && $order == 'asc') {{
-                                link_to_action(
-                                    'UsersController@listUsers',
-                                    'Perfil',
-                                    array(
-                                        'sortby' => 'capacidad',
-                                        'order' => 'desc',
-                                        'veractivados' => $veractivados,
-                                        'verdesactivados' => $verdesactivados,
-                                        
+                                   }}
+                            @else {{
+                                    link_to_action(
+                                       'UsersController@listUsers',
+                                            'Colectivo',
+                                            array(
+                                                'sortby' => 'colectivo',
+                                                'order' => 'asc',
+                                                'veractivados' => $veractivados,
+                                                'verdesactivados' => $verdesactivados,
+                                            
+                                            )
                                         )
-                                    )
-                               }}
-                        @else {{
-                                link_to_action(
-                                   'UsersController@listUsers',
+                                    }}
+                            @endif
+                            <i class="fa fa-sort fa-fw text-info"></i>
+                        </th>
+                                
+                        <th style="width: 18%;">
+                            @if ($sortby == 'rol' && $order == 'asc') {{
+                                    link_to_action(
+                                        'UsersController@listUsers',
                                         'Perfil',
                                         array(
                                             'sortby' => 'capacidad',
-                                            'order' => 'asc',
+                                            'order' => 'desc',
                                             'veractivados' => $veractivados,
                                             'verdesactivados' => $verdesactivados,
-                                        
+                                            
+                                            )
                                         )
-                                    )
-                                }}
-                        @endif
-                        <i class="fa fa-sort fa-fw text-info"></i>
-                    </th>
-                    
-                    <th style="width: 25%;">
-                        @if ($sortby == 'apellidos' && $order == 'asc') {{
-                                link_to_action(
-                                    'UsersController@listUsers',
-                                    'Apellidos, nombre',
-                                    array(
-                                        'sortby' => 'apellidos',
-                                        'order' => 'desc',
-                                        'veractivados' => $veractivados,
-                                        'verdesactivados' => $verdesactivados,
-                                        
+                                   }}
+                            @else {{
+                                    link_to_action(
+                                       'UsersController@listUsers',
+                                            'Perfil',
+                                            array(
+                                                'sortby' => 'capacidad',
+                                                'order' => 'asc',
+                                                'veractivados' => $veractivados,
+                                                'verdesactivados' => $verdesactivados,
+                                            
+                                            )
                                         )
-                                    )
-                               }}
-                        @else {{
-                                link_to_action(
-                                   'UsersController@listUsers',
+                                    }}
+                            @endif
+                            <i class="fa fa-sort fa-fw text-info"></i>
+                        </th>
+                        
+                        <th style="width: 25%;">
+                            @if ($sortby == 'apellidos' && $order == 'asc') {{
+                                    link_to_action(
+                                        'UsersController@listUsers',
                                         'Apellidos, nombre',
                                         array(
                                             'sortby' => 'apellidos',
-                                            'order' => 'asc',
+                                            'order' => 'desc',
                                             'veractivados' => $veractivados,
                                             'verdesactivados' => $verdesactivados,
-                                        
+                                            
+                                            )
                                         )
-                                    )
-                                }}
-                        @endif
-                        <i class="fa fa-sort fa-fw text-info"></i>
-                    </th>
-                    
-                    <th style="width: 20%;">Observaciones</th>
-                    
-                    <th >Última modificación</th>
-                </thead>
-                
-                <tbody>
-                    
-                    @foreach($usuarios as $user)
+                                   }}
+                            @else {{
+                                    link_to_action(
+                                       'UsersController@listUsers',
+                                            'Apellidos, nombre',
+                                            array(
+                                                'sortby' => 'apellidos',
+                                                'order' => 'asc',
+                                                'veractivados' => $veractivados,
+                                                'verdesactivados' => $verdesactivados,
+                                            
+                                            )
+                                        )
+                                    }}
+                            @endif
+                            <i class="fa fa-sort fa-fw text-info"></i>
+                        </th>
                         
-                        <tr>
-                            <td>
-                              
-                                @if($user->estado && !$user->caducado())
-                                    <i class="fa fa-check fa-fw text-success"  title='Cuenta Activa'></i>
-                                @endif
-                                @if ($user->caducado())
-                                    <i class="fa fa-clock-o fa-fw text-danger" title='Cuenta Caducada'></i>
-                                @endif
-                                @if(!$user->estado) 
-                                    <i class="fa fa-minus-circle fa-fw text-danger " title='Cuenta Desactivada'></i>
-                                @endif
-                            </td>
+                        <th style="width: 20%;">Observaciones</th>
+                        
+                        <th >Última modificación</th>
+                    </thead>
+                    
+                    <tbody>
+                        
+                        @foreach($usuarios as $user)
                             
-                            <td>
-                                <a href="" class="eliminarUsuario" data-infousuario="{{$user->nombre}} {{$user->apellidos}} - {{$user->username}} -" data-id="{{$user->id}}">
-                                    <i class="fa fa-trash fa-fw" title='borrar'></i>
-                                </a>
+                        @if ($user->sancionado())
+                            <tr class="text-danger">
+                        @else
+                            <tr>
+                        @endif
+                                <td>
+                                  
+                                    @if($user->estado && !$user->caducado() && !$user->sancionado())
+                                        <i class="fa fa-check fa-fw text-success"  title='Cuenta Activa'></i>
+                                    @endif
+                                    @if ($user->caducado())
+                                        <i class="fa fa-clock-o fa-fw text-danger" title='Cuenta Caducada'></i>
+                                    @endif
+                                    @if(!$user->estado) 
+                                        <i class="fa fa-minus-circle fa-fw text-danger " title='Cuenta Desactivada'></i>
+                                    @endif
+                                    @if ($user->sancionado())
+                                        <i class="fa fa-lock fa-fw" title='Sancionado'></i>
+                                    @endif
+                                </td>
                                 
-                                <a href="{{route('useredit.html',array('id' => $user->id))}}">
-                                    <i class="fa fa-pencil fa-fw" title='editar'></i>
-                                </a>
-                                
-                                <a href="" class="sanciona-usuario" data-nombre="{{$user->nombre}} {{$user->apellidos}}" data-uvus="{{$user->username}}" data-correo="{{$user->email}}" data-id="{{$user->id}}">
-                                    <i class="fa fa-lock fa-fw" title='Sancionar'></i>
-                                </a>
-                                {{$user->username}}
+                                <td>
+                                    <a href="" class="eliminarUsuario" data-infousuario="{{$user->nombre}} {{$user->apellidos}} - {{$user->username}} -" data-id="{{$user->id}}">
+                                        <i class="fa fa-trash fa-fw" title='borrar'></i>
+                                    </a>
+                                    
+                                    <a href="{{route('useredit.html',array('id' => $user->id))}}">
+                                        <i class="fa fa-pencil fa-fw" title='editar'></i>
+                                    </a>
+                                    
+                                    <a href="" class="sanciona-usuario" data-nombre="{{$user->nombre}} {{$user->apellidos}}" data-uvus="{{$user->username}}" data-correo="{{$user->email}}" data-id="{{$user->id}}">
+                                        <i class="fa fa-lock fa-fw" title='Sancionar'></i>
+                                    </a>
+                                    {{$user->username}}
 
-                            </td>
-                            
-                            <td> {{ $user->colectivo }} </td>
-                            
-                            <td> {{ $user->getRol() }} </td>
-                            
-                            <td> {{ $user->apellidos .', '.$user->nombre }} </td>
-                            
-                            <td> {{ $user->observaciones }} </td>
-                            
-                            <td>
-                                <small> {{ date('d M Y, H:m',strtotime($user->updated_at)) }} </small>
-                            </td>
-                        </tr>
-                     @endforeach
+                                </td>
+                                
+                                <td> {{ $user->colectivo }} </td>
+                                
+                                <td> {{ $user->getRol() }} </td>
+                                
+                                <td> {{ $user->apellidos .', '.$user->nombre }} </td>
+                                
+                                <td> {{ $user->observaciones }} </td>
+                                
+                                <td>
+                                    <small> {{ date('d M Y, H:m',strtotime($user->updated_at)) }} </small>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
-                    </table>
+                </table>
 
-                    {{$usuarios->appends(Input::except('page','result'))->links();}}
-                
+                {{$usuarios->appends(Input::except('page','result'))->links();}}
+                    
             </div><!-- /.panel-body -->
 
         </div><!-- /.panel-default -->
-    
-</div><!-- /.row -->    
+    </div><!-- /.row -->    
 
 </div><!-- /.container -->
 
