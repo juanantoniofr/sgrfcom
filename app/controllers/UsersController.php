@@ -29,14 +29,37 @@ class UsersController extends BaseController {
 
         //Ouput
         $resultado = array( 'msg' => '',
-                            'exito' => false;
+                            'exito' => false,
                         );
         //Validate Inputs
+        $inputs = array(  'userId' => $intIdUser,
+                    'f_fin' => $strF_fin,
+                    );
+        $rules = array(  'userId' => 'required',
+                    'f_fin' => 'required|date_format:d-m-Y',
+                );
+        $messagesError = array( 'required' => ' El campo <strong>:attribute</strong> es obligatorio.',
+                                'date_format' =>  '<strong>Formato de fecha de fin de sanción no válido</strong>. Formato admitido: d-m-Y.');
+
+        $validator = Validator::make($inputs, $rules, $messagesError);
         
+        if ($validator->fails()) {
+            // The given data did not pass validation
+            $messages = $validator->messages();
+            foreach ($messages->all('<li>:message</li>') as $message) {
+                $resultado['msg'] .= $message;
+            }
+            $resultado['exito'] = false;
+
+            return $resultado;
+        }
+
+        // 
         $resultado['exito'] = true;
         $resultado['msg'] = 'UsuerID = ' . $intIdUser . ', strMotivoSancion = ' . $strMotivoSancion . ', fecha fin = ' . $strF_fin . ', id user login = ' . Auth::user()->id;
 
         return $resultado;
+        
 
     }
 

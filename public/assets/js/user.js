@@ -15,6 +15,7 @@ $(function(e){
         e.stopPropagation();
 
         //set default values
+        $('div#modal-sanciona-usuario div#msg').fadeOut('100');
         $('div#modal-sanciona-usuario span#nombre').html( $(this).data('nombre'));
         $('div#modal-sanciona-usuario span#correo').html( $(this).data('correo'));
 
@@ -27,7 +28,7 @@ $(function(e){
             $('div#modal-sanciona-usuario #envia-correo').attr('checked', true);
         }
         
-        $('div#modal-sanciona-usuario input[name="userId]').val( $(this).data('id'));        
+        $('div#modal-sanciona-usuario input[name="userId"]').val( $(this).data('id') );      
         $('#modal-sanciona-usuario').modal('show');
     });
 
@@ -35,14 +36,20 @@ $(function(e){
 
         e.preventDefault();
         e.stopPropagation();
-
+        
         $.ajax({
             type: "GET",
             url: "ajaxSancionaUsuario", /* terminar en controllador */
-            data: {userId:$('div#modal-sanciona-usuario input[name="userId]').val(),motivoSancion:$('div#modal-sanciona-usuario motivo-sancion').val(),f_fin:$('div#modal-sanciona-usuario input[name="f_fin"]').val()},
+            data: {userId:$('div#modal-sanciona-usuario #userId').val(),motivoSancion:$.trim($('div#modal-sanciona-usuario #motivo-sancion').val()),f_fin:$('div#modal-sanciona-usuario input[name="f_fin"]').val()},
             success: function($respuesta){
                 
                 console.log($respuesta);
+
+                if ( $respuesta['exito'] == false ){
+                    $('div#modal-sanciona-usuario ul#list-errors').html($respuesta['msg']);
+                    $('div#modal-sanciona-usuario div#msg').fadeIn('3500');
+                } 
+                    
             },
             error: function(xhr, ajaxOptions, thrownError){
                     hideGifEspera();

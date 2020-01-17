@@ -83,7 +83,7 @@ Route::post('admin/salvarNuevoUsuario',array('as' => 'post_addUser','uses' => 'U
 Route::get('admin/useredit.html',array('as' => 'useredit.html','uses' => 'UsersController@formEditUser','before' => array('auth','capacidad:4,msg')));
 Route::post('admin/useredit.html',array('as' => 'updateUser.html','uses' => 'UsersController@updateUser','before' => array('auth','capacidad:4,msg')));
 
-Route::get('admin/sancionaUser',array('as' => 'sancionaUser','uses' => 'UsersController@ajaxSancionaUsuario','before' => array('auth','capacidad:4,msg','ajax_check')));
+Route::get('admin/ajaxSancionaUsuario',array('as' => 'sancionaUser','uses' => 'UsersController@ajaxSancionaUsuario','before' => array('auth','capacidad:4,msg','ajax_check')));
 
 Route::get('admin/eliminaUser.html',array('as' => 'eliminaUser.html','uses' => 'UsersController@delete','before' => array('auth','capacidad:4,msg')));
 Route::get('admin/ajaxBorraUser',array('as' => 'ajaxBorraUser','uses' => 'UsersController@ajaxDelete','before' => array('auth','capacidad:4,msg','ajax_check')));

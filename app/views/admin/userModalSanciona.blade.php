@@ -16,13 +16,12 @@
             
             <div class="modal-body">
               
-                @if (Session::has('message'))
-                        
-                    <div class="alert {{ Session::has('alertType') or 'alert-warning' }} alert-dismissable">
+                <div id="msg" class="alert alert-danger alert-dismissable">
                       
-                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{ Session::get('message') }}
-                    </div>
-                @endif
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> 
+                      <ul id="list-errors"></ul>
+                </div>
+                
 
                 {{ Form::open(array('method' => 'POST','route' => 'sancionaUser','role'=>'form')) }}
                                
@@ -31,8 +30,7 @@
                     
                         <label for="motivo-sancion"  class="control-label" >Motivo sanción: </label> 
                         
-                        <textarea name="motivoSancion" class="form-control" rows="10" id="motivo-sancion">
-                        </textarea>
+                        <textarea name="motivoSancion" class="form-control" rows="10" id="motivo-sancion"></textarea>
 
                         <div class="checkbox" id="enviar-correo">
                             <label>
@@ -49,7 +47,7 @@
 
                     <div class="form-group hidden">
             
-                        <input type="text" name="userId" value="" class="form-control" />
+                        <input type="text" name="userId" id="userId" value="" class="form-control" />
                     </div>
       
                 {{Form::close()}}
