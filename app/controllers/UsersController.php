@@ -97,7 +97,7 @@ class UsersController extends BaseController {
       $colectivos = Config::get('options.colectivos');
       $perfiles = Config::get('options.perfiles');
 
-      return View::make('admin.userList')->with(compact('usuarios','sortby','order','veractivados','verdesactivados'))->nest('dropdown',Auth::user()->dropdownMenu())->nest('menuUsuarios','admin.menuUsuarios',compact('veractivados','verdesactivados','colectivo','colectivos','perfil','perfiles'))->nest('modalAddUser','admin.userModalAdd')->nest('modalSancionaUser','admin.userModalSanciona');
+      return View::make('admin.userList')->with(compact('usuarios','sortby','order','veractivados','verdesactivados'))->nest('dropdown',Auth::user()->dropdownMenu())->nest('menuUsuarios','admin.menuUsuarios',compact('veractivados','verdesactivados','colectivo','colectivos','perfil','perfiles'))->nest('modalAddUser','admin.userModalAdd')->nest('modalSancionaUser','admin.userModalSanciona')->nest('modalEliminaSancion','admin.userModalEliminaSancion');
   }
 
   public function delete(){

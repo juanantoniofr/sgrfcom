@@ -22,13 +22,15 @@
 
             <div class="panel-body">
                 
-                @if (!empty(Session::get('msgExitoSancion')))
+                @if ( Session::has('msgExitoSancion') )
                     
                     <div class="alert alert-success alert-dismissable">
                     
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        <p>{{ Session::pull('msgExitoSancion') }}</p> 
+                        <p>{{ Session::get('msgExitoSancion') }}</p> 
                     </div>
+
+                    {{ Session::forget('msgExitoSancion') }}
                 @endif   
                 
                 <table class="table table-hover table-striped">
@@ -169,11 +171,7 @@
                         
                         @foreach($usuarios as $user)
                             
-                        @if ($user->sancionado())
-                            <tr class="text-danger">
-                        @else
-                            <tr>
-                        @endif
+                        <tr>
                                 <td>
                                   
                                     @if($user->estado && !$user->caducado() && !$user->sancionado())
@@ -186,7 +184,7 @@
                                         <i class="fa fa-minus-circle fa-fw text-danger " title='Cuenta Desactivada'></i>
                                     @endif
                                     @if ($user->sancionado())
-                                        <i class="fa fa-lock fa-fw" title='Sancionado'></i>
+                                        <i class="fa fa-exclamation-triangle fa-fw text-danger" title='Sancionado'></i>
                                     @endif
                                 </td>
                                 
@@ -199,8 +197,14 @@
                                         <i class="fa fa-pencil fa-fw" title='editar'></i>
                                     </a>
                                     
-                                    <a href="" class="sanciona-usuario" data-nombre="{{$user->nombre}} {{$user->apellidos}}" data-uvus="{{$user->username}}" data-correo="{{$user->email}}" data-id="{{$user->id}}">
-                                        <i class="fa fa-lock fa-fw" title='Sancionar'></i>
+                                    <a href="" data-nombre="{{$user->nombre}} {{$user->apellidos}}" data-uvus="{{$user->username}}" data-correo="{{$user->email}}" data-id="{{$user->id}}"
+                                    @if ($user->sancionado())
+                                        class="eliminaSancion" > 
+                                        <i class="fa fa-unlock fa-fw text-danger" title='Quitar Sanción' data-infosancion = "aquí va la información sobre la sanción" data-id="{{ $user->id }}"></i>
+                                    @else
+                                        class="sanciona-usuario" >
+                                        <i class="fa fa-lock fa-fw text-info"  title='Sancionar'></i>
+                                    @endif
                                     </a>
                                     {{$user->username}}
 
@@ -238,7 +242,7 @@
         <div class="modal-content">
       
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Eliminar recurso</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Eliminar Usuario</h4>
             </div>
 
             <div class="modal-body">
@@ -260,6 +264,7 @@
 
 {{ $modalAddUser or '' }}
 {{ $modalSancionaUser or '' }}
+{{ $modalEliminaSancion or '' }}
 
 
 @stop

@@ -3,10 +3,21 @@ $(function(e){
 
     $(".eliminarUsuario").on('click',function(e){
         e.preventDefault();
+        e.stopPropagation();
         $('#infoUsuario').html($(this).data('infousuario'));
         $('a#btnEliminar').data('id',$(this).data('id'));
         $('a#btnEliminar').attr('href', 'eliminaUser.html' + '?'+'id='+$(this).data('id'));
         $('#modalEliminaUsuario').modal('show');
+    });
+
+    $(".eliminaSancion").on('click',function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        alert('Establecer info de la sanción, añadoir ruta a route.php, implementar el método en el cortroller, controlador');
+        $('div#modalEliminaSancion span#infosancion').html( $(this).data('infosancion') );
+        //$('a#btnEliminaSancion').data('id', $(this).data('id') );
+        $('a#btnEliminaSancion').attr('href', 'eliminaSancion' + '?'+'id='+$(this).data('id'));
+        $('#modalEliminaSancion').modal('show');
     });
 
     $(".sanciona-usuario").on('click',function(e){
@@ -43,13 +54,15 @@ $(function(e){
             data: {userId:$('div#modal-sanciona-usuario #userId').val(),motivoSancion:$.trim($('div#modal-sanciona-usuario #motivo-sancion').val()),f_fin:$('div#modal-sanciona-usuario input[name="f_fin"]').val()},
             success: function($respuesta){
                 
-                console.log($respuesta);
+                //console.log($respuesta);
 
                 if ( $respuesta['exito'] == false ){
                     
                     $('div#modal-sanciona-usuario ul#list-errors').html($respuesta['msg']);
                     $('div#modal-sanciona-usuario div#msg').fadeIn('3500');
                 }
+                else
+                    $('#modal-sanciona-usuario').modal('hide');
                     
             },
             error: function(xhr, ajaxOptions, thrownError){
