@@ -21,6 +21,52 @@ $(function(e){
 		$('#uvusBtn').html(getUvus());
 	});
 
+	$('#searchByDni').on('click',function(e){
+		
+		e.preventDefault();
+		e.stopPropagation();
+		resetmsg();
+
+		alert('buscar por UVUS');
+
+		if ( $('#inputDni').empty() ) 
+			getSanciones();
+		else
+			alert('Campo Dni vacio..');
+	});
+
+	function getSanciones(){
+		
+		showGifEspera();
+		$.ajax({
+				type: "GET",
+				url: "ajaxGetSanciones",
+				data: {dni:$('#inputDni').val()},
+
+				success: function($respuesta){
+					
+					console.log($respuesta);
+					
+					if ( $respuesta['exito'] == false ){
+                    
+                    	$('div#error').html('<ul>' + $respuesta['msg'] + '</ul>');
+                    	$('div#error').fadeIn('3500');
+                	}
+                	else{
+
+                		$('div#error').html('<ul>' + $respuesta['msg'] + '</ul>');
+                    	$('div#success').html($respuesta['sanciones']).fadeIn('3500');
+                    } 
+                    hideGifEspera();
+		    	},
+				error: function(xhr, ajaxOptions, thrownError){
+						hideGifEspera();
+						alert(xhr.responseText + ' (codeError: ' + xhr.status  +')');
+				}
+	  });
+	}
+
+
 	function resetmsg(){
 		$('#errorgetEvents').fadeOut('slow');
 		$('#error').fadeOut('slow');

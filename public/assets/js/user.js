@@ -33,11 +33,9 @@ $(function(e){
         $('div#modal-sanciona-usuario #motivo-sancion').html( $(this).data('motivosancion') );
         
         var $date = new Date();
-
         if ( $(this).data('ffinsancion') != '' ) $date = $(this).data('ffinsancion');
-        
-        $( "#datepickerFin" ).datepicker( "setDate",  $date );
-        
+        $( "#datepickerFin" ).val( $date );
+
         $('div#modal-sanciona-usuario div#enviar-correo').fadeOut('3000');
         if ( $(this).data('correo') != '' ) {
             

@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="panel-body">
-            
+                    
                     <applet id="lector"  
                         code="fcom.maviuno.LectorCarnetUniversitario/InfoUI.class" 
                         codebase="https://servidorfcom.us.es/sgr/assets/applet"
@@ -40,12 +40,22 @@
                 <div class="panel-footer">
                     
                     <p><span id = "dni" style="display:none" ></span><p>
+                  
+                    <div class="form-group">   
+                        
+                        <input type="text" class="form-control" id="inputDni" placeholder="Buscar por UVUS (sigue por aquí cabesssa...." name="dni" >
+                    </div>
+                                
+                    <div class="form-group">   
+                        
+                        <button type="submit" class="btn btn-primary " id="searchByDni"><i class="fa fa-search fa-fw"></i> Buscar</button> 
+                    </div>
                     
                 </div>
             </div><!-- /.panel -->
-            </div>
+        </div>
 
-            <div class="col-md-6">   
+        <div class="col-md-6">   
             <div class="panel panel-warning">
                 
 
@@ -71,11 +81,8 @@
                         
                     </div>                    
                 </div><!-- /.panel-body -->
-
-                
-            
             </div><!-- /.panel -->
-            </div>
+        </div>
     </div>
 
     

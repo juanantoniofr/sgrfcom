@@ -13,6 +13,65 @@ class UsersController extends BaseController {
     }
 
     /**
+        * llamada ajax, devuelve las sanciones de usaurio identificado su DNI
+        * 
+        * @param Input::get('userId',''); 
+        *
+        * @return $respuesta View::make 
+    */
+
+    public function ajaxGetSanciones(){
+
+        //Input
+        $dni = Input::get('dni','');
+        
+        //Ouput
+        $resultado = array( 'msg' => '',
+                            'exito' => false,
+                        );
+        //Validate Inputs
+        $inputs = array( 'dni' => $dni );
+        $rules = array( 'dni' => 'required|exists:users,dni' );
+        $messagesError = array( 'required'  => ' El campo <strong>:attribute</strong> es obligatorio.',
+                                'exists'    => 'DNI no encontrado en la Base de Datos');
+
+        $validator = Validator::make($inputs, $rules, $messagesError);
+        
+        if ($validator->fails()) {
+            // The given data did not pass validation
+            $messages = $validator->messages();
+            foreach ($messages->all('<li>:message</li>') as $message) {
+                $resultado['msg'] .= $message;
+            }
+
+            return $resultado;
+        }
+
+        $user = User::where('dni','=',$dni)->first();
+
+        if ( empty($user) ){
+
+            $resultado['msg'] = '<li>Usuario con DNI '. $dni .' no encontrado</li>';
+            return $resultado;
+        }
+
+
+        if (!$user->sancionado()) {
+
+            $resultado['msg'] = '<li>Usuario con DNI '. $dni .' no tiene ninguna sanción</li>';
+            return $resultado;
+        }
+
+            
+        $respuesta['msg'] = View::make( 'tecnico.sanciones', compact( $user->sanciones() ) );
+        $respuesta['exito'] = true;
+
+        return $respuesta;
+
+    }
+
+
+    /**
         * llamada ajax, estable sanción a identificado su Id
         * 
         * @param 
@@ -54,26 +113,18 @@ class UsersController extends BaseController {
             return $resultado;
         }
 
-        //estableciendo sanción
-        /*$sancion = new Sancion(array( 'motivo' => $strMotivoSancion,
-                                      'f_fin' => Date::toDB($strF_fin,'-'),
-                                      'user_id' => $intIdUser,
-                                      'tecnico_id' => Auth::user()->id)
-                                );
-        */
         $sancion = Sancion::firstOrNew(array( 'f_fin' => Date::toDB($strF_fin,'-')));
+       
         $sancion->motivo = $strMotivoSancion;
-        //'f_fin' => Date::toDB($strF_fin,'-'),
-        //                        'user_id' => $intIdUser,
         $sancion->tecnico_id = Auth::user()->id;
+       
         $user = User::findOrFail($intIdUser);
         $sancion = $user->sanciones()->save($sancion);
 
         $resultado['exito'] = true;
 
         Session::put('msgExitoSancion', 'Sanción establecida con éxito' );
-        //return $resultado;
-        //return Redirect::back();
+       
         return $resultado;
     }
 
