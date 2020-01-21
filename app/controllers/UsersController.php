@@ -32,11 +32,11 @@ class UsersController extends BaseController {
                             'exito' => false,
                         );
         //Validate Inputs
-        $inputs = array(  'userId' => $intIdUser,
-                    'f_fin' => $strF_fin,
+        $inputs = array(    'userId' => $intIdUser,
+                            'f_fin' => $strF_fin,
                     );
-        $rules = array(  'userId' => 'required',
-                    'f_fin' => 'required|date_format:d-m-Y',
+        $rules = array(     'userId' => 'required',
+                            'f_fin' => 'required|date_format:d-m-Y',
                 );
         $messagesError = array( 'required' => ' El campo <strong>:attribute</strong> es obligatorio.',
                                 'date_format' =>  '<strong>Formato de fecha de fin de sanción no válido</strong>. Formato admitido: d-m-Y.');
@@ -55,17 +55,26 @@ class UsersController extends BaseController {
         }
 
         //estableciendo sanción
-        $sancion = new Sancion(array( 'motivo' => $strMotivoSancion,
+        /*$sancion = new Sancion(array( 'motivo' => $strMotivoSancion,
                                       'f_fin' => Date::toDB($strF_fin,'-'),
                                       'user_id' => $intIdUser,
                                       'tecnico_id' => Auth::user()->id)
                                 );
+        */
+        $sancion = Sancion::firstOrNew(array( 'f_fin' => Date::toDB($strF_fin,'-')));
+        $sancion->motivo = $strMotivoSancion;
+        //'f_fin' => Date::toDB($strF_fin,'-'),
+        //                        'user_id' => $intIdUser,
+        $sancion->tecnico_id = Auth::user()->id;
         $user = User::findOrFail($intIdUser);
         $sancion = $user->sanciones()->save($sancion);
 
+        $resultado['exito'] = true;
 
         Session::put('msgExitoSancion', 'Sanción establecida con éxito' );
-        return Redirect::back();
+        //return $resultado;
+        //return Redirect::back();
+        return $resultado;
     }
 
 

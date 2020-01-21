@@ -24,7 +24,7 @@
                 
                 @if ( Session::has('msgExitoSancion') )
                     
-                    <div class="alert alert-success alert-dismissable">
+                    <div class="alert alert-success alert-dismissable text-center">
                     
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                         <p>{{ Session::get('msgExitoSancion') }}</p> 
@@ -37,9 +37,9 @@
                     
                     <thead>
                         
-                        <th style="width: 2%;"></th>  
+                        <th style="width: 1%;"></th>  
                         
-                        <th  style="width: 19%;">
+                        <th  style="width: 20%;">
                             @if ($sortby == 'username' && $order == 'asc') {{
                                     link_to_action(
                                         'UsersController@listUsers',
@@ -191,7 +191,7 @@
                                 <td>
                                     {{$user->username}}
                                     
-                                    <a href="#" class="eliminarUsuario" data-infousuario="{{$user->nombre}} {{$user->apellidos}} - {{$user->username}} -" data-id="{{$user->id}}">
+                                    <a href="" class="eliminarUsuario" data-infousuario="{{$user->nombre}} {{$user->apellidos}} - {{$user->username}} -" data-id="{{$user->id}}">
                                         <i class="fa fa-trash fa-fw" title='borrar'></i>
                                     </a>
                                     
@@ -199,11 +199,11 @@
                                         <i class="fa fa-pencil fa-fw" title='editar'></i>
                                     </a>
                                     
-                                    <a href="#" data-nombre="{{$user->nombre}} {{$user->apellidos}}" data-uvus="{{$user->username}}" data-correo="{{$user->email}}" data-id="{{$user->id}}" data-idsancion="{{$user->idSancion()}}" data-motivosancion = "{{$user->motivoSancion()}}"  data-ffinsancion="{{$user->fFinSancion()}}" class="sanciona-usuario" >
+                                    <a href="" data-nombre="{{$user->nombre}} {{$user->apellidos}}" data-uvus="{{$user->username}}" data-correo="{{$user->email}}" data-id="{{$user->id}}" data-idsancion="{{$user->idSancion()}}" data-motivosancion = "{{$user->motivoSancion()}}"  data-ffinsancion="{{$user->fFinSancion()}}" class="sanciona-usuario" >
                                             <i class="fa fa-lock fa-fw text-info"  title='Sancionar'></i>
                                     </a>
                                     @if ($user->sancionado())
-                                        <a href="#" data-nombre="{{$user->nombre}} {{$user->apellidos}}" data-uvus="{{$user->username}}" data-correo="{{$user->email}}" data-id="{{$user->id}}" data-idsancion="{{$user->idSancion()}}" data-motivosancion = "{{$user->motivoSancion()}}"  data-ffinsancion="{{$user->fFinSancion()}}" class="eliminaSancion">  
+                                        <a href="" data-nombre="{{$user->nombre}} {{$user->apellidos}}" data-uvus="{{$user->username}}" data-correo="{{$user->email}}" data-id="{{$user->id}}" data-idsancion="{{$user->idSancion()}}" data-motivosancion = "{{$user->motivoSancion()}}"  data-ffinsancion="{{$user->fFinSancion()}}" class="eliminaSancion">  
                                             <i class="fa fa-unlock fa-fw text-danger" title='Quitar Sanción'></i>
                                         </a>
                                     @endif
