@@ -30,8 +30,13 @@ $(function(e){
         $('div#modal-sanciona-usuario div#msg').fadeOut('100');
         $('div#modal-sanciona-usuario span#nombre').html( $(this).data('nombre'));
         $('div#modal-sanciona-usuario span#correo').html( $(this).data('correo'));
-
-        $( "#datepickerFin" ).datepicker( "setDate", new Date() );
+        $('div#modal-sanciona-usuario #motivo-sancion').html( $(this).data('motivosancion'));
+        
+        var $date = new Date();
+        alert($(this).data('ffinsancion'));
+        if ( $(this).data('ffinsancion') != '' ) $date = $(this).data('ffinsancion')
+        
+        $( "#datepickerFin" ).datepicker( "setDate",  $date);
         
         $('div#modal-sanciona-usuario div#enviar-correo').fadeOut('3000');
         if ( $(this).data('correo') != '' ) {

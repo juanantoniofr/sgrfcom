@@ -37,9 +37,9 @@
                     
                     <thead>
                         
-                        <th style="width: 1%;"></th>  
+                        <th style="width: 2%;"></th>  
                         
-                        <th  style="width: 15%;">
+                        <th  style="width: 19%;">
                             @if ($sortby == 'username' && $order == 'asc') {{
                                     link_to_action(
                                         'UsersController@listUsers',
@@ -131,7 +131,7 @@
                             <i class="fa fa-sort fa-fw text-info"></i>
                         </th>
                         
-                        <th style="width: 25%;">
+                        <th style="width: 20%;">
                             @if ($sortby == 'apellidos' && $order == 'asc') {{
                                     link_to_action(
                                         'UsersController@listUsers',
@@ -189,7 +189,9 @@
                                 </td>
                                 
                                 <td>
-                                    <a href="" class="eliminarUsuario" data-infousuario="{{$user->nombre}} {{$user->apellidos}} - {{$user->username}} -" data-id="{{$user->id}}">
+                                    {{$user->username}}
+                                    
+                                    <a href="#" class="eliminarUsuario" data-infousuario="{{$user->nombre}} {{$user->apellidos}} - {{$user->username}} -" data-id="{{$user->id}}">
                                         <i class="fa fa-trash fa-fw" title='borrar'></i>
                                     </a>
                                     
@@ -197,16 +199,15 @@
                                         <i class="fa fa-pencil fa-fw" title='editar'></i>
                                     </a>
                                     
-                                    <a href="" data-nombre="{{$user->nombre}} {{$user->apellidos}}" data-uvus="{{$user->username}}" data-correo="{{$user->email}}" data-id="{{$user->id}}" data-idsancion="{{$user->idSancion()}}" data-motivosancion = "{{$user->motivoSancion()}}"
-                                    @if ($user->sancionado())
-                                        class="eliminaSancion" data-ffinsancion="{{$user->fFinSancion()}}"> 
-                                        <i class="fa fa-unlock fa-fw text-danger" title='Quitar Sanción'></i>
-                                    @else
-                                        class="sanciona-usuario" >
-                                        <i class="fa fa-lock fa-fw text-info"  title='Sancionar'></i>
-                                    @endif
+                                    <a href="#" data-nombre="{{$user->nombre}} {{$user->apellidos}}" data-uvus="{{$user->username}}" data-correo="{{$user->email}}" data-id="{{$user->id}}" data-idsancion="{{$user->idSancion()}}" data-motivosancion = "{{$user->motivoSancion()}}"  data-ffinsancion="{{$user->fFinSancion()}}" class="sanciona-usuario" >
+                                            <i class="fa fa-lock fa-fw text-info"  title='Sancionar'></i>
                                     </a>
-                                    {{$user->username}}
+                                    @if ($user->sancionado())
+                                        <a href="#" data-nombre="{{$user->nombre}} {{$user->apellidos}}" data-uvus="{{$user->username}}" data-correo="{{$user->email}}" data-id="{{$user->id}}" data-idsancion="{{$user->idSancion()}}" data-motivosancion = "{{$user->motivoSancion()}}"  data-ffinsancion="{{$user->fFinSancion()}}" class="eliminaSancion">  
+                                            <i class="fa fa-unlock fa-fw text-danger" title='Quitar Sanción'></i>
+                                        </a>
+                                    @endif
+                             
                                 </td>
                                 
                                 <td> {{ $user->colectivo }} </td>
