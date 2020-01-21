@@ -13,10 +13,11 @@ $(function(e){
     $(".eliminaSancion").on('click',function(e){
         e.preventDefault();
         e.stopPropagation();
-        alert('Establecer info de la sanción, añadoir ruta a route.php, implementar el método en el cortroller, controlador');
-        $('div#modalEliminaSancion span#infosancion').html( $(this).data('infosancion') );
-        //$('a#btnEliminaSancion').data('id', $(this).data('id') );
-        $('a#btnEliminaSancion').attr('href', 'eliminaSancion' + '?'+'id='+$(this).data('id'));
+                
+        $('div#modalEliminaSancion span#infouser').html( $(this).data('nombre') );
+        $('div#modalEliminaSancion span#infosancion').html( '<p><b>Motivo:</b><br />' + $(this).data('motivosancion') + '</p><p><b>Fin sanción:</b> ' + $(this).data('ffinsancion') + '</p>');
+        
+        $('a#btnEliminaSancion').attr('href', 'eliminaSancion' + '?'+'idUser='+$(this).data('id') + '&'+'idSancion='+$(this).data('idsancion'));
         $('#modalEliminaSancion').modal('show');
     });
 

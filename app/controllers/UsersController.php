@@ -66,8 +66,58 @@ class UsersController extends BaseController {
 
         Session::put('msgExitoSancion', 'Sanción establecida con éxito' );
         return Redirect::back();
+    }
+
+
+    /**
+        * llamada ajax, estable sanción a identificado su Id
+        * 
+        * @param Input::get('idUser')       //identificador usuario 
+        * @param Input::get('idSancion')    //identificador sanción
+        *
+        * @return $respuesta :View::make 
+    */
+
+    public function eliminaSancion(){
+
+        //Input
+        $idUser = Input::get('idUser','');
+        $idSancion = Input::get('idSancion','');
+        //Ouput
+        $resultado = array( 'msg' => '',
+                            'exito' => false,
+                        );
+        //Validate Inputs
+        $inputs = array(    'idUser' => $idUser, 
+                            'idSancion' => $idSancion
+                        );
+        $rules = array( 'idUser' => 'required|exists:users,id',
+                        'idSancion' => 'required|exists:sanciones,id'
+                    );
+        $messagesError = array( 'required' => ' El campo <strong>:attribute</strong> es obligatorio.',
+                                'exists' =>  'Identificador no encontrado.');
+
+        $validator = Validator::make($inputs, $rules, $messagesError);
         
+        if ($validator->fails()) {
+            // The given data did not pass validation
+            $messages = $validator->messages();
+            $resultado['msg'] = 'Error de validación:<ul>';
+            foreach ($messages->all('<li>:message</li>') as $message) {
+                $resultado['msg'] .= $message;
+            }
+            $resultado['msg'] -= '</ul>';
+            $resultado['exito'] = false;
+            Session::put('msgExitoSancion', $resultado['msg'] );
+            return Redirect::back();
+        }
+
+        //Eliminar sanción
+        $sancion = User::find($idUser)->sanciones()->where('id','=',$idSancion)->delete();
         
+
+        Session::put('msgExitoSancion', 'Sanción eliminada con éxito' );
+        return Redirect::back();
     }
 
   public function listUsers(){
@@ -100,27 +150,27 @@ class UsersController extends BaseController {
       return View::make('admin.userList')->with(compact('usuarios','sortby','order','veractivados','verdesactivados'))->nest('dropdown',Auth::user()->dropdownMenu())->nest('menuUsuarios','admin.menuUsuarios',compact('veractivados','verdesactivados','colectivo','colectivos','perfil','perfiles'))->nest('modalAddUser','admin.userModalAdd')->nest('modalSancionaUser','admin.userModalSanciona')->nest('modalEliminaSancion','admin.userModalEliminaSancion');
   }
 
-  public function delete(){
+    public function delete(){
     
-    $id = Input::get('id','');
+        $id = Input::get('id','');
 
-    if (empty($id)){
-        Session::flash('message', 'No se ha borrado el usuario: Identificador de usuario vacío....');
+        if (empty($id)){
+            Session::flash('message', 'No se ha borrado el usuario: Identificador de usuario vacío....');
+            return Redirect::back();
+        }
+
+        $user = User::find($id);
+        $user->supervisa()->detach();
+        $user->delete();
+        Session::flash('message', 'Usuario borrado con éxito....');
         return Redirect::back();
     }
 
-    $user = User::find($id);
-    $user->supervisa()->detach();
-    $user->delete();
-    Session::flash('message', 'Usuario borrado con éxito....');
-    return Redirect::back();
-
-  }
-
-  public function hometecnico(){
-      $dropdown = Auth::user()->dropdownMenu();
-      return View::make('tecnico.index')->nest('dropdown',$dropdown)->nest('addModal','tecnico.addReservaModal');
-  }
+    public function hometecnico(){
+        
+        $dropdown = Auth::user()->dropdownMenu();
+        return View::make('tecnico.index')->nest('dropdown',$dropdown)->nest('addModal','tecnico.addReservaModal');
+    }
  
   public function newUser(){
 

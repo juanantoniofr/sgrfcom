@@ -9,7 +9,9 @@
 
             <div class="modal-body">
         
-                <div class="alert alert-danger" role = "alert">¿Estás seguro que deseas <b>eliminar</b>  la sanción del usuario: "<b><span id="infosancion"></span>"</b> ?</div>
+                <div class="alert alert-danger" role = "alert">¿Estás seguro que deseas <b>eliminar  la sanción</b> del usuario: "<b><span id="infouser"></span>"</b> ?</div>
+
+                <div class="alert alert-info" role = "info"><span id="infosancion"></span></div>
                 
             </div><!-- ./.modal-body -->
 

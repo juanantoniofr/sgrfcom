@@ -197,17 +197,16 @@
                                         <i class="fa fa-pencil fa-fw" title='editar'></i>
                                     </a>
                                     
-                                    <a href="" data-nombre="{{$user->nombre}} {{$user->apellidos}}" data-uvus="{{$user->username}}" data-correo="{{$user->email}}" data-id="{{$user->id}}"
+                                    <a href="" data-nombre="{{$user->nombre}} {{$user->apellidos}}" data-uvus="{{$user->username}}" data-correo="{{$user->email}}" data-id="{{$user->id}}" data-idsancion="{{$user->idSancion()}}" data-motivosancion = "{{$user->motivoSancion()}}"
                                     @if ($user->sancionado())
-                                        class="eliminaSancion" > 
-                                        <i class="fa fa-unlock fa-fw text-danger" title='Quitar Sanción' data-infosancion = "aquí va la información sobre la sanción" data-id="{{ $user->id }}"></i>
+                                        class="eliminaSancion" data-ffinsancion="{{$user->fFinSancion()}}"> 
+                                        <i class="fa fa-unlock fa-fw text-danger" title='Quitar Sanción'></i>
                                     @else
                                         class="sanciona-usuario" >
                                         <i class="fa fa-lock fa-fw text-info"  title='Sancionar'></i>
                                     @endif
                                     </a>
                                     {{$user->username}}
-
                                 </td>
                                 
                                 <td> {{ $user->colectivo }} </td>

@@ -41,6 +41,63 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		return ( $this->sanciones()->where('f_fin','>=',$strDBToday)->get()->count() > 0 );
 	}
 
+	/**
+		*
+		* devuele f_fin de última sanción 
+		*
+		* @return true|false
+	*/
+	public function fFinSancion(){
+		
+		if ($this->sancionado()){
+
+			$strDBToday = strftime('%Y-%m-%d',strtotime('today'));
+			$sancion = $this->sanciones()->where('f_fin', '>=', $strDBToday)->first();
+		}
+		
+		if (!empty($sancion))
+			return strftime('%d-%m-%Y',strtotime($sancion->f_fin));
+		else
+			return strftime('%d-%m-%Y',strtotime('today'));;
+	}
+
+	/**
+		*
+		* devuele sanción activa o vacío 
+		*
+		* @return Objetc Sancion| empty
+	*/
+	public function motivoSancion(){
+		
+
+		if ($this->sancionado()){
+
+			$strDBToday = strftime('%Y-%m-%d',strtotime('today'));
+			$sancion = $this->sanciones()->where('f_fin', '>=', $strDBToday)->first();
+			return $sancion->motivo;
+		}
+		
+		return '';
+	}
+
+	/**
+		*
+		* devuele id de la sanción activa o vacío 
+		*
+		* @return Objetc Sancion| empty
+	*/
+	public function idSancion(){
+
+		if ($this->sancionado()){
+
+			$strDBToday = strftime('%Y-%m-%d',strtotime('today'));
+			$sancion = $this->sanciones()->where('f_fin', '>=', $strDBToday)->first();
+			return $sancion->id;
+		}
+		
+		return '';	
+	}
+
 	//devuelve los recurso que valida
 	public function supervisa()
     {
