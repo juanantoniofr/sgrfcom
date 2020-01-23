@@ -18,8 +18,11 @@
 
     
     <div class="row">
-            <div class="col-md-6">
-            <div class="panel panel-info">
+        {{-- Obtener reservas de usuario desde Carnet de estudiante --}}
+        <div class="col-md-6">
+            
+            <div class="panel panel-primary">
+                
                 <div class="panel-heading">
                     <h3><i class="fa fa-credit-card fa-fw"></i> Lector carnet</h3>
                 </div>
@@ -33,31 +36,43 @@
                         width=448
                         height=358>
                     </applet><!-- ./applet -->
-                    
-                    
                 </div><!-- /.panel-body -->
                 
                 <div class="panel-footer">
                     
-                    <p><span id = "dni" style="display:none" ></span><p>
-                  
-                    {{-- //Busqueda de Sanciones por UVUS --}}
-                    <div class="form-group">   
-                        
-                        <input type="text" class="form-control" id="inputUvus" placeholder="Busqueda por UVUS " name="uvus" >
-                    </div>
-                                
-                    <div class="form-group">   
-                        
-                        <button type="submit" class="btn btn-primary " id="searchByUvus"><i class="fa fa-search fa-fw"></i> Buscar</button> 
-                    </div>
-                    
+                    <p>DNI: <span id = "dni" ></span><p>
                 </div>
             </div><!-- /.panel -->
         </div>
 
+        {{-- Obtener Sanciones por UVUS --}}
+        <div class="col-md-6">
+            
+            <div class="panel panel-primary">
+                
+                <div class="panel-heading">
+                    <h3><i class="fa fa-credit-card fa-fw"></i> Buscar Sanciones</h3>
+                </div>
+                
+                <div class="panel-body">
+                    
+                    <div class="form-group">   
+                            
+                        <input type="text" class="form-control" id="inputUvus" placeholder="Busqueda por UVUS " name="uvus" >
+                    </div>
+                                    
+                    <div class="form-group">   
+                            
+                        <button type="submit" class="btn btn-primary " id="searchByUvus"><i class="fa fa-search fa-fw"></i> Buscar</button> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
         {{-- Información de reservas --}}
-        <div class="col-md-6">   
+        <div class="col-md-6" id="reservas">   
             <div class="panel panel-warning">
                 
 
@@ -66,10 +81,10 @@
                 </div><!-- /.panel-heading -->
         
                 <div class="panel-body"  >
-                    <div style = "display:none" class="alert alert-success alert-dismissable col-md-12 text-center" role="alert" id="success"><span></span></div>
-                    <div style = "display:none" class="alert alert-danger alert-dismissable col-md-12 text-center" role="alert" id="error"><span></span></div>
-                    <div style = "display:none" class="alert alert-warning alert-dismissable col-md-12 text-center" role="alert" id="warning"><span></span></div>
-                    <div style = "display:none" class="alert alert-danger alert-dismissable col-md-12 text-center" role="alert" id="errorgetEvents"><span></span></div>
+                    <div style = "display:none" class="alert alert-success alert-dismissable col-md-12 text-center msgResultado" role="alert" id="success"><span></span></div>
+                    <div style = "display:none" class="alert alert-danger alert-dismissable col-md-12 text-center msgResultado" role="alert" id="error"><span></span></div>
+                    <div style = "display:none" class="alert alert-warning alert-dismissable col-md-12 text-center msgResultado" role="alert" id="warning"><span></span></div>
+                    <div style = "display:none" class="alert alert-danger alert-dismissable col-md-12 text-center msgResultado" role="alert" id="errorgetEvents"><span></span></div>
                     
                     
                     <div id="divSearch" style="display:none">
@@ -93,27 +108,15 @@
                 
 
                 <div class="panel-heading">
-                    <h3><i class="fa fa-list fa-fw"></i> Reservas usuario UVUS: <b><span id="uvus" style="display:none"></span></b></h3>
+                    <h3><i class="fa fa-list fa-fw"></i> Sanciones de usuario con UVUS: <b><span id="uvus" style="display:none"></span></b></h3>
                 </div><!-- /.panel-heading -->
         
                 <div class="panel-body"  >
-                    <div style = "display:none" class="alert alert-success alert-dismissable col-md-12 text-center" role="alert" id="success"><span></span></div>
-                    <div style = "display:none" class="alert alert-danger alert-dismissable col-md-12 text-center" role="alert" id="error"><span></span></div>
-                    <div style = "display:none" class="alert alert-warning alert-dismissable col-md-12 text-center" role="alert" id="warning"><span></span></div>
-                    <div style = "display:none" class="alert alert-danger alert-dismissable col-md-12 text-center" role="alert" id="errorgetEvents"><span></span></div>
-                    
-                    
-                    <div id="divSearch" style="display:none">
-                       <h4 style = "border-bottom:1px solid #bbb;color:#999;margin:0px;margin-bottom:10px;">Nueva reserva diaria:</h4>
-                         
-                        <a href="{{route('calendarios.html')}}"  class="btn btn-danger" id="btnNuevaReserva" ><i class="fa fa-calendar fa-fw"></i> Añadir reserva para <b><span id="uvusBtn"></span></b></a>
-                        <a href="" class="btn btn-primary updateList"><i class="fa fa-refresh fa-fw"></i> Actualizar lista</a>
-
-                       <h4 style = "border-bottom:1px solid #bbb;color:#999;margin:0px;margin-top:10px;">Reservas:</h4>
-                        <p class="" id="resultsearch" ></p>
-
-                        
-                    </div>                    
+                    <div style = "display:none" class="alert alert-success alert-dismissable col-md-12 msgResultado" role="alert" id="success"><span></span></div>
+                    <div style = "display:none" class="alert alert-danger alert-dismissable col-md-12 msgResultado" role="alert" id="error"><span></span></div>
+                    <div style = "display:none" class="alert alert-warning alert-dismissable col-md-12 msgResultado" role="alert" id="warning"><span></span></div>
+                    <div style = "display:none" class="alert alert-danger alert-dismissable col-md-12 msgResultado" role="alert" id="errorgetEvents"><span></span></div>
+                                       
                 </div><!-- /.panel-body -->
             </div><!-- /.panel -->
         </div>

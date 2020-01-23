@@ -14,13 +14,21 @@ $(function(e){
 		
 		resetmsg();
 		if ($('#dni').html() != ""){
+			
 			getReservas();
+			setSanciones();
 		}
 		
-		if (getUvus() != $('#uvus').html()) $('#uvus').html(getUvus()).fadeIn('slow');
+		if (getUvus() != $('#uvus').html()) {
+		
+			$('div#reservas #uvus').html(getUvus()).fadeIn('slow');
+			$('div#sanciones #uvus').html(getUvus()).fadeIn('slow');
+			$('div#sanciones #inputUvus').val(getUvus());
+		}
 		$('#uvusBtn').html(getUvus());
 	});
 
+	
 	//Input
 	$('#searchByUvus').on('click',function(e){
 		
@@ -40,7 +48,7 @@ $(function(e){
 
 				success: function($respuesta){
 					
-					console.log($respuesta);
+					//console.log($respuesta);
 					
 					if ( $respuesta['exito'] == false ){
                     
@@ -72,11 +80,12 @@ $(function(e){
 
 
 	function resetmsg(){
-		$('#errorgetEvents').fadeOut('slow');
-		$('#error').fadeOut('slow');
-		$('#success').fadeOut('slow');
-		$('#nohayreservas').fadeOut('slow');
-		$('#divSearch').fadeOut('slow');
+		$('.msgResultado').html('').fadeOut('slow');
+		/*$('div#reservas #errorgetEvents').html('').fadeOut('slow');
+		$('#error').html('').fadeOut('slow');
+		$('#success').html('').fadeOut('slow');
+		$('#nohayreservas').html('').fadeOut('slow');
+		$('#divSearch').html('').fadeOut('slow');*/
 		$('#resultsearch').html('');
 	}
 
