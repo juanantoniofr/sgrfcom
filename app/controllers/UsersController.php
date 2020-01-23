@@ -13,27 +13,29 @@ class UsersController extends BaseController {
     }
 
     /**
-        * llamada ajax, devuelve las sanciones de usaurio identificado su DNI
+        * llamada ajax, devuelve las sanciones de usaurio identificado su UVUS
         * 
-        * @param Input::get('userId',''); 
+        * @param String Input::get('uvus',''); 
         *
-        * @return $respuesta View::make 
+        * @return Array $respuesta  
     */
 
     public function ajaxGetSanciones(){
 
         //Input
-        $dni = Input::get('dni','');
+        $uvus = Input::get('uvus','');
         
         //Ouput
         $resultado = array( 'msg' => '',
                             'exito' => false,
+                            'tienesancion' => true,
                         );
+
         //Validate Inputs
-        $inputs = array( 'dni' => $dni );
-        $rules = array( 'dni' => 'required|exists:users,dni' );
+        $inputs = array( 'uvus' => $uvus );
+        $rules = array( 'uvus' => 'required|exists:users,username' );
         $messagesError = array( 'required'  => ' El campo <strong>:attribute</strong> es obligatorio.',
-                                'exists'    => 'DNI no encontrado en la Base de Datos');
+                                'exists'    => 'UVUS <b>' . $uvus .'</b> no encontrado en la Base de Datos');
 
         $validator = Validator::make($inputs, $rules, $messagesError);
         
@@ -47,26 +49,28 @@ class UsersController extends BaseController {
             return $resultado;
         }
 
-        $user = User::where('dni','=',$dni)->first();
+        $user = User::where('username','=',$uvus)->first(); //debe haber solo uno, username es campo "Unique"
 
         if ( empty($user) ){
 
-            $resultado['msg'] = '<li>Usuario con DNI '. $dni .' no encontrado</li>';
+            $resultado['msg'] = '<li>Usuario con UVUS <b>'. $uvus .'</b> no encontrado</li>';
             return $resultado;
         }
 
 
-        if (!$user->sancionado()) {
+        if ( $user->sancionado() == false ) {
 
-            $resultado['msg'] = '<li>Usuario con DNI '. $dni .' no tiene ninguna sanción</li>';
+            $resultado['msg'] = '<li>Usuario UVUS <b>"'. $uvus .'"</b> no tiene ninguna sanción</li>';
+            $resultado['exito'] = true;
+            $resultado['tienesancion'] = false;
             return $resultado;
         }
 
             
-        $respuesta['msg'] = View::make( 'tecnico.sanciones', compact( $user->sanciones() ) );
-        $respuesta['exito'] = true;
+        $resultado['msg'] = (String) View::make( 'tecnico.sanciones', ['sanciones' => $user->sanciones] );
+        $resultado['exito'] = true;
 
-        return $respuesta;
+        return $resultado;
 
     }
 

@@ -9,7 +9,7 @@ $(function(e){
 		//$('#update').close('show');
 	});
 	
-	
+	//Applet 
 	$('#dni').on('change',function(){
 		
 		resetmsg();
@@ -21,18 +21,13 @@ $(function(e){
 		$('#uvusBtn').html(getUvus());
 	});
 
-	$('#searchByDni').on('click',function(e){
+	//Input
+	$('#searchByUvus').on('click',function(e){
 		
 		e.preventDefault();
 		e.stopPropagation();
 		resetmsg();
-
-		alert('buscar por UVUS');
-
-		if ( $('#inputDni').empty() ) 
-			getSanciones();
-		else
-			alert('Campo Dni vacio..');
+		getSanciones();
 	});
 
 	function getSanciones(){
@@ -41,7 +36,7 @@ $(function(e){
 		$.ajax({
 				type: "GET",
 				url: "ajaxGetSanciones",
-				data: {dni:$('#inputDni').val()},
+				data: {uvus:$('#inputUvus').val()},
 
 				success: function($respuesta){
 					
@@ -49,13 +44,22 @@ $(function(e){
 					
 					if ( $respuesta['exito'] == false ){
                     
-                    	$('div#error').html('<ul>' + $respuesta['msg'] + '</ul>');
-                    	$('div#error').fadeIn('3500');
+                    	$('div#sanciones div#error').html('<ul>' + $respuesta['msg'] + '</ul>');
+                    	$('div#sanciones div#error').fadeIn('3500');
                 	}
                 	else{
 
-                		$('div#error').html('<ul>' + $respuesta['msg'] + '</ul>');
-                    	$('div#success').html($respuesta['sanciones']).fadeIn('3500');
+                		if ( $respuesta['tienesancion'] == true ){
+							
+							$('div#sanciones div#warning').html('<ul>' + $respuesta['msg'] + '</ul>');
+                    		$('div#sanciones div#warning').html($respuesta['sanciones']).fadeIn('3500');
+                		}
+                		else {
+                			
+                			$('div#sanciones div#success').html('<ul>' + $respuesta['msg'] + '</ul>');
+                    	    $('div#sanciones div#success').html($respuesta['sanciones']).fadeIn('3500');	
+                		}
+                		
                     } 
                     hideGifEspera();
 		    	},

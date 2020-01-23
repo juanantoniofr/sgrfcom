@@ -41,20 +41,22 @@
                     
                     <p><span id = "dni" style="display:none" ></span><p>
                   
+                    {{-- //Busqueda de Sanciones por UVUS --}}
                     <div class="form-group">   
                         
-                        <input type="text" class="form-control" id="inputDni" placeholder="Buscar por UVUS (sigue por aquí cabesssa...." name="dni" >
+                        <input type="text" class="form-control" id="inputUvus" placeholder="Busqueda por UVUS " name="uvus" >
                     </div>
                                 
                     <div class="form-group">   
                         
-                        <button type="submit" class="btn btn-primary " id="searchByDni"><i class="fa fa-search fa-fw"></i> Buscar</button> 
+                        <button type="submit" class="btn btn-primary " id="searchByUvus"><i class="fa fa-search fa-fw"></i> Buscar</button> 
                     </div>
                     
                 </div>
             </div><!-- /.panel -->
         </div>
 
+        {{-- Información de reservas --}}
         <div class="col-md-6">   
             <div class="panel panel-warning">
                 
@@ -66,6 +68,38 @@
                 <div class="panel-body"  >
                     <div style = "display:none" class="alert alert-success alert-dismissable col-md-12 text-center" role="alert" id="success"><span></span></div>
                     <div style = "display:none" class="alert alert-danger alert-dismissable col-md-12 text-center" role="alert" id="error"><span></span></div>
+                    <div style = "display:none" class="alert alert-warning alert-dismissable col-md-12 text-center" role="alert" id="warning"><span></span></div>
+                    <div style = "display:none" class="alert alert-danger alert-dismissable col-md-12 text-center" role="alert" id="errorgetEvents"><span></span></div>
+                    
+                    
+                    <div id="divSearch" style="display:none">
+                       <h4 style = "border-bottom:1px solid #bbb;color:#999;margin:0px;margin-bottom:10px;">Nueva reserva diaria:</h4>
+                         
+                        <a href="{{route('calendarios.html')}}"  class="btn btn-danger" id="btnNuevaReserva" ><i class="fa fa-calendar fa-fw"></i> Añadir reserva para <b><span id="uvusBtn"></span></b></a>
+                        <a href="" class="btn btn-primary updateList"><i class="fa fa-refresh fa-fw"></i> Actualizar lista</a>
+
+                       <h4 style = "border-bottom:1px solid #bbb;color:#999;margin:0px;margin-top:10px;">Reservas:</h4>
+                        <p class="" id="resultsearch" ></p>
+
+                        
+                    </div>                    
+                </div><!-- /.panel-body -->
+            </div><!-- /.panel -->
+        </div>
+
+        {{-- Información de sanciones --}}
+        <div class="col-md-6" id="sanciones">   
+            <div class="panel panel-warning">
+                
+
+                <div class="panel-heading">
+                    <h3><i class="fa fa-list fa-fw"></i> Reservas usuario UVUS: <b><span id="uvus" style="display:none"></span></b></h3>
+                </div><!-- /.panel-heading -->
+        
+                <div class="panel-body"  >
+                    <div style = "display:none" class="alert alert-success alert-dismissable col-md-12 text-center" role="alert" id="success"><span></span></div>
+                    <div style = "display:none" class="alert alert-danger alert-dismissable col-md-12 text-center" role="alert" id="error"><span></span></div>
+                    <div style = "display:none" class="alert alert-warning alert-dismissable col-md-12 text-center" role="alert" id="warning"><span></span></div>
                     <div style = "display:none" class="alert alert-danger alert-dismissable col-md-12 text-center" role="alert" id="errorgetEvents"><span></span></div>
                     
                     

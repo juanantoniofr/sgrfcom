@@ -182,11 +182,20 @@ App::error(function(ModelNotFoundException $e)
   
   });
 
-Route::get('test',array('as'=>'test',function(){
+Route::get('test2',array('as'=>'test2',function(){
 	
-	$id_recurso = '26';
-	if (ACL::puedeSuperarLimiteHoras($id_recurso)) echo "si";
-	else echo "no";
+	$sanciones = User::where('username','=','abel')->first()->sanciones;//->sanciones();
+	
+	
+	foreach ($sanciones as $sancion){
+		echo '<ul>
+		<li> <b>Fecha fin: </b>'. $sancion->f_fin .' </li>
+		<li> <b>Motivo: </b><br />'. $sancion->motivo .' </li>
+	</ul>';
+	}
+	
+	
+
 }));
 
 

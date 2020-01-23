@@ -26,7 +26,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 	*/
 	public function sanciones(){
 
-		return $this->hasMany('Sancion','user_id');
+		return $this->hasMany('Sancion','user_id','id');
 	}
 
 	/**
