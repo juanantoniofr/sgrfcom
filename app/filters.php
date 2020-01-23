@@ -38,7 +38,7 @@ App::after(function($request, $response)
 //Developed
 Route::filter('auth', function()
 {
-	$user = User::find('30');
+	$user = User::find('256');
 	Auth::login($user);
 	//if (Auth::guest()) return Redirect::to(route('loginsso'));
 	

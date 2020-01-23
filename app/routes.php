@@ -73,7 +73,7 @@ Route::post('admin/addAdmin.html',array('as' => 'postaddRecursoAdmin','uses' => 
 
 
 //routes gestión de usuarios
-Route::get('admin/users.html',array('as' => 'users','uses' => 'UsersController@listUsers','before' => array('auth','capacidad:4,msg')));
+Route::get('admin/users.html',array('as' => 'users','uses' => 'UsersController@listUsers','before' => array('auth','capacidad:3,4,msg')));
 
 Route::get('admin/adduser.html',array('as' => 'adduser','uses' => 'UsersController@newUser','before' => array('auth','capacidad:4,msg')));
 //Route::post('admin/user/new',array('as' => 'addUser','uses' => 'UsersController@create','before' => array('auth','capacidad:4,msg')));
@@ -83,10 +83,10 @@ Route::post('admin/salvarNuevoUsuario',array('as' => 'post_addUser','uses' => 'U
 Route::get('admin/useredit.html',array('as' => 'useredit.html','uses' => 'UsersController@formEditUser','before' => array('auth','capacidad:4,msg')));
 Route::post('admin/useredit.html',array('as' => 'updateUser.html','uses' => 'UsersController@updateUser','before' => array('auth','capacidad:4,msg')));
 
-Route::get('admin/ajaxSancionaUsuario',array('as' => 'sancionaUser','uses' => 'UsersController@ajaxSancionaUsuario','before' => array('auth','capacidad:4,msg','ajax_check')));
+Route::get('admin/ajaxSancionaUsuario',array('as' => 'sancionaUser','uses' => 'UsersController@ajaxSancionaUsuario','before' => array('auth','capacidad:3,4,msg','ajax_check')));
 
-Route::get('admin/eliminaSancion',array('as' => 'eliminaSancion','uses' => 'UsersController@eliminaSancion','before' => array('auth','capacidad:4,msg')));
-Route::get('tecnico/ajaxGetSanciones',array('as' => 'ajaxGetSanciones','uses' => 'UsersController@ajaxGetSanciones','before' => array('auth','capacidad:4,msg','ajax_check')));
+Route::get('admin/eliminaSancion',array('as' => 'eliminaSancion','uses' => 'UsersController@eliminaSancion','before' => array('auth','capacidad:3,4,msg')));
+Route::get('tecnico/ajaxGetSanciones',array('as' => 'ajaxGetSanciones','uses' => 'UsersController@ajaxGetSanciones','before' => array('auth','capacidad:3,4,msg','ajax_check')));
 
 Route::get('admin/eliminaUser.html',array('as' => 'eliminaUser.html','uses' => 'UsersController@delete','before' => array('auth','capacidad:4,msg')));
 Route::get('admin/ajaxBorraUser',array('as' => 'ajaxBorraUser','uses' => 'UsersController@ajaxDelete','before' => array('auth','capacidad:4,msg','ajax_check')));

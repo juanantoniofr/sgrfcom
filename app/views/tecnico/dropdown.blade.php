@@ -5,6 +5,8 @@
     
     <li ><a  href="{{Auth::user()->getHome()}}" title="Escritorio"><i class="fa fa-dashboard fa-fw"></i> Escritorio</a></li>
 
+    <li><a  href="{{route('users',array('veractivados' => 1))}}"><i class="fa fa-user fa-fw"></i> Usuarios<span class="fa arrow"></span></a></li>
+    
     <li><a href="{{route('calendarios.html')}}"><i class="fa fa-calendar fa-fw"></i> Calendarios</a></li>
     
     @if (Auth::user()->capacidad == '6')

@@ -191,13 +191,16 @@
                                 <td>
                                     {{$user->username}}
                                     
-                                    <a href="" class="eliminarUsuario" data-infousuario="{{$user->nombre}} {{$user->apellidos}} - {{$user->username}} -" data-id="{{$user->id}}">
-                                        <i class="fa fa-trash fa-fw" title='borrar'></i>
-                                    </a>
+                                    @if ( Auth::user()->capacidad == 4 )
+                                        
+                                        <a href="" class="eliminarUsuario" data-infousuario="{{$user->nombre}} {{$user->apellidos}} - {{$user->username}} -" data-id="{{$user->id}}">
+                                            <i class="fa fa-trash fa-fw" title='borrar'></i>
+                                        </a>
                                     
-                                    <a href="{{route('useredit.html',array('id' => $user->id))}}">
-                                        <i class="fa fa-pencil fa-fw" title='editar'></i>
-                                    </a>
+                                        <a href="{{route('useredit.html',array('id' => $user->id))}}">
+                                            <i class="fa fa-pencil fa-fw" title='editar'></i>
+                                        </a>
+                                    @endif
                                     
                                     <a href="" data-nombre="{{$user->nombre}} {{$user->apellidos}}" data-uvus="{{$user->username}}" data-correo="{{$user->email}}" data-id="{{$user->id}}" data-idsancion="{{$user->idSancion()}}" data-motivosancion = "{{$user->motivoSancion()}}"  data-ffinsancion="{{$user->fFinSancion()}}" class="sanciona-usuario" >
                                             <i class="fa fa-lock fa-fw text-info"  title='Sancionar'></i>
