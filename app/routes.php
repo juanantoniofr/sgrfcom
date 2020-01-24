@@ -140,7 +140,8 @@ Route::get('tecnico/getDataEvent',array(	'uses' => 'CalendarController@getDataEv
 Route::post('tecnico/saveAtencion',array(	'uses' => 'CalendarController@saveAtencion','before' => array('auth','capacidad:3-4,msg')));
 
 //Todos los perfiles
-Route::get('calendarios.html',array('as' => 'calendarios.html','uses' => 'CalendarController@showCalendarViewMonth','before' => array('auth','inicioCurso','capacidad:1-2-3-4-5-6,msg')));
+Route::get('calendarios.html',array('as' => 'calendarios.html','uses' => 'CalendarController@showCalendarViewMonth','before' => array('auth','inicioCurso','capacidad:1-2-3-4-5-6,msg','sanciones')));
+Route::get('avisos.html',array('as' => 'avisos', 'uses' => 'AvisosController@index','before' => array('auth')));
 
 //Ajax function
 //Evento: cambio grupo de recursos

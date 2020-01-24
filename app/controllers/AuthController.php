@@ -7,6 +7,7 @@ class AuthController extends BaseController {
   */
   public function doLogin(){
 
+
     if (Cas::authenticate()){
       // login en sso ok 
       $attributes = Cas::attr();
@@ -35,8 +36,6 @@ class AuthController extends BaseController {
         return View::make('loginError')->with(compact('msg'));
       }
     
-
-
       $statusUvus = stripos($attributes['schacuserstatus'],'uvus:OK');
 
 
@@ -122,8 +121,6 @@ class AuthController extends BaseController {
         $msg = 'Usuario registrado en <i>reservas fcom</i>.<br />En 24/48 horas activaremos su cuenta<br />';
         return View::make('loginError')->with(compact('msg'));
       }
-
-            
     }
     else{
       $msg = '<b>error autenticación sso</b><br />';

@@ -38,7 +38,8 @@ App::after(function($request, $response)
 //Developed
 Route::filter('auth', function()
 {
-	$user = User::find('256');
+	//$user = User::find('256'); //pepelu
+	$user = User::find('2823'); //alumno usrname = abrcamgar
 	Auth::login($user);
 	//if (Auth::guest()) return Redirect::to(route('loginsso'));
 	
@@ -101,7 +102,7 @@ Route::filter('inicioCurso',function(){
 		}
 	}
 
-	if (	ACL::isAvanceUser() 
+	if (ACL::isAvanceUser() 
 		|| 	ACL::isTecnico() 
 		&& 	!in_array(Auth::user()->username, Config::get('options.userexcluded')) 
 		){
@@ -115,6 +116,13 @@ Route::filter('inicioCurso',function(){
 			 	', el sistema se abrirá para toda la Comunidad del Centro.<br /></p>';
 			return Redirect::to('loginerror')->with(compact('title','msg'));
 		}
+	}
+});
+
+Route::filter('sanciones',function(){
+	if ( Auth::user()->sancionado() ){
+		$htmlSanciones = (string) View::make('tecnico.sanciones',array('sanciones' => Auth::user()->sanciones)); 
+		return Redirect::route('avisos',array('title' => 'Usuario Sancionado','msg' => $htmlSanciones,'alert' => 'danger'));
 	}
 });
 //Comprobar si el sistema permite a los usarios registrar reservas.

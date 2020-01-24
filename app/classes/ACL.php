@@ -29,7 +29,6 @@ class ACL {
 	   	}
 
 	   return $l;
-	
 	}
 
 
@@ -59,9 +58,6 @@ class ACL {
 		return $nh;
 	}	
 
-	
-
-
 	//Último viernes reservable a partir del la fecha del día de hoy
 	public static function lastFriday(){
 
@@ -84,7 +80,6 @@ class ACL {
 		}
 
 		return $v;
-
 	}
 
 	public static function automaticAuthorization($idRecurso){
@@ -120,9 +115,7 @@ class ACL {
 		}
 		
 		return $siAutomatico;
-
 	}
-
 
 	public static function canReservation($idRecurso,$acl){
 
@@ -140,8 +133,6 @@ class ACL {
 		return $can;
 	}
 
-	
-
 	public static function withOutRepetition(){
 		$withRepetition = false;
 
@@ -150,7 +141,6 @@ class ACL {
 
 		return $withRepetition;
 	}
-
 
 	//Alumnos
 	public static function isUser(){
@@ -200,6 +190,7 @@ class ACL {
 
 		return $isUser;
 	}
+	
 	//PAS
 	public static function isTecnico(){
 		$isTecnico = false;
@@ -208,6 +199,7 @@ class ACL {
 
 		return $isTecnico;
 	}
+	
 	//root
 	public static function isAdmin(){
 		$isAdmin = false;
@@ -216,6 +208,7 @@ class ACL {
 
 		return $isAdmin;
 	}
+	
 	//Validador
 	public static function isValidador(){
 		$isValidador = false;
