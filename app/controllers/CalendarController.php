@@ -204,10 +204,6 @@ class CalendarController extends BaseController {
 		$year = Input::get('year',date('Y'));
 		$uvus = INput::get('uvus','');
 
-		
-
-
-
 		//Los usuarios del rol "alumnos" sólo pueden reservar 12 horas a la semana como máximo
 		$nh = ACL::numHorasReservadas();
 		$msg = '';
@@ -234,7 +230,9 @@ class CalendarController extends BaseController {
 		$tBody = Calendar::getBodytableMonth($numMonth,$year);
 		
 		//Se obtinen todos los grupos de recursos
-		$grupos = DB::table('recursos')->select('id', 'acl', 'grupo','grupo_id')->groupby('grupo')->get();
+		//$grupos = DB::table('recursos')->select('id', 'acl', 'grupo','grupo_id')->groupby('grupo')->get();
+		//Se obtinen todos los grupos de recursos
+		$grupos = Recurso::groupBy('grupo')->get();
 		
 		//se filtran para obtener sólo aquellos con acceso para el usuario logeado
 		$groupWithAccess = array();
@@ -244,7 +242,8 @@ class CalendarController extends BaseController {
 		}
 		
 		
-		$dropdown = Auth::user()->dropdownMenu();		
+		$dropdown = Auth::user()->dropdownMenu();
+
 		//se devuelve la vista calendario.
 		return View::make('Calendarios')->with('day',$day)->with('numMonth',$numMonth)->with('year',$year)->with('tCaption',$tCaption)->with('tHead',$tHead)->with('tBody',$tBody)->with('nh',$nh)->with('viewActive',$viewActive)->with('uvusUser',$uvus)->nest('sidebar','sidebar',array('msg' => $msg,'grupos' => $groupWithAccess))->nest('dropdown',$dropdown)->nest('modaldescripcion','modaldescripcion')->nest('modalMsg','modalMsg');
 	}

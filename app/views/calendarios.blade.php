@@ -74,7 +74,8 @@
 
 
       
-      <div id="loadCalendar">  
+      <div id="loadCalendar"> 
+      @if ( Auth::user()->capacidad == 4 ) {{ View::make('avisos.aviso') }} 
         <table class="pull-left " style = "table-layout: fixed;width: 100%;" id="tableCalendar" >
           <caption id="tableCaption">{{$tCaption}}</caption>
           <thead id="tableHead">{{$tHead}}</thead>
