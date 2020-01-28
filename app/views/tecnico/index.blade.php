@@ -36,12 +36,11 @@
                         width=448
                         height=358>
                     </applet><!-- ./applet -->
+
+                    <p>DNI: <span id="dni" ></span><p>
                 </div><!-- /.panel-body -->
                 
-                <div class="panel-footer">
-                    
-                    <p>DNI: <span id = "dni" ></span><p>
-                </div>
+                
             </div><!-- /.panel -->
         </div>
 
@@ -58,12 +57,12 @@
                     
                     <div class="form-group">   
                             
-                        <input type="text" class="form-control" id="inputUvus" placeholder="Busqueda por UVUS " name="uvus" >
+                        <input type="text" class="form-control" id="inputDni" placeholder="dni sin letra " name="dni" >
                     </div>
                                     
                     <div class="form-group">   
                             
-                        <button type="submit" class="btn btn-primary " id="searchByUvus"><i class="fa fa-search fa-fw"></i> Buscar</button> 
+                        <button type="submit" class="btn btn-primary " id="searchByDni"><i class="fa fa-search fa-fw"></i> Buscar</button> 
                     </div>
                 </div>
             </div>

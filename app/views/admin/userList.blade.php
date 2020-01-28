@@ -203,11 +203,11 @@
                                     @endif
                                     
                                     <a href="" data-nombre="{{$user->nombre}} {{$user->apellidos}}" data-uvus="{{$user->username}}" data-correo="{{$user->email}}" data-id="{{$user->id}}" data-idsancion="{{$user->idSancion()}}" data-motivosancion = "{{$user->motivoSancion()}}"  data-ffinsancion="{{$user->fFinSancion()}}" class="sanciona-usuario" >
-                                            <i class="fa fa-lock fa-fw text-info"  title='Sancionar'></i>
+                                            <i class="fa fa-unlock fa-fw text-info"  title='Sancionar'></i>
                                     </a>
                                     @if ($user->sancionado())
                                         <a href="" data-nombre="{{$user->nombre}} {{$user->apellidos}}" data-uvus="{{$user->username}}" data-correo="{{$user->email}}" data-id="{{$user->id}}" data-idsancion="{{$user->idSancion()}}" data-motivosancion = "{{$user->motivoSancion()}}"  data-ffinsancion="{{$user->fFinSancion()}}" class="eliminaSancion">  
-                                            <i class="fa fa-unlock fa-fw text-danger" title='Quitar Sanción'></i>
+                                            <i class="fa fa-lock fa-fw text-danger" title='Quitar Sanción'></i>
                                         </a>
                                     @endif
                              

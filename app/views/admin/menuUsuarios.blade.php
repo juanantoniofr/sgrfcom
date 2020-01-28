@@ -3,13 +3,14 @@
         
         <div class="row">
         <form class="navbar-form navbar-left">
+            @if (Auth::user()->capacidad == 4)
             <div class="form-group ">
                 <a href="" class="active btn btn-danger" id="addUser" title="Añadir nuevo usuario"><i class="fa fa-plus fa-fw"></i> Añadir nuevo usuario</a>
             </div>
+            @endif
             <div class="form-group ">
                 <a href="{{route('users',array('veractivados' => 1))}}" class="btn btn-primary" title="Listar usuarios"><i class="fa fa-list fa-fw"></i> Listar cuentas activas</a>
-            </div>                            
-                
+            </div>                              
         </form>
         
         
@@ -54,8 +55,13 @@
 
             <div class="form-group ">
                 <input type="text" class="form-control" id="search" placeholder="Con UVUS...." name="search" >
-                <button type="submit" class="btn btn-primary form-control"><i class="fa fa-filter fa-fw"></i> Aplicar filtro</button> 
-            </div>                            
+                <input type="text" class="form-control" id="search" placeholder="DNI...." name="dni" >
+                 
+            </div>
+
+            <div class="form-group tright">
+                <button type="submit" class="btn btn-primary form-control"><i class="fa fa-filter fa-fw"></i> Buscar</button>
+            </div>                         
         
         </form>
         </div>

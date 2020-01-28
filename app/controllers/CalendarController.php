@@ -93,6 +93,14 @@ class CalendarController extends BaseController {
 
 						
 		$user = User::where('username','=',$username)->first();
+
+		
+		if ($user->sancionado()){
+			$respuesta['sancionado'] = true;
+			$respuesta['sancion'] = View::make('tecnico.sanciones',compact($user->sanciones()));
+			return $respuesta;
+		}
+		
 		$today = date('Y-m-d');
 		if (empty($user)) return '1';//false
 		
@@ -229,10 +237,15 @@ class CalendarController extends BaseController {
 		$tHead = Calendar::gettHead($viewActive,$day,$numMonth,$year);
 		$tBody = Calendar::getBodytableMonth($numMonth,$year);
 		
-		//Se obtinen todos los grupos de recursos
-		//$grupos = DB::table('recursos')->select('id', 'acl', 'grupo','grupo_id')->groupby('grupo')->get();
-		//Se obtinen todos los grupos de recursos
-		$grupos = Recurso::groupBy('grupo')->get();
+		
+		$nombreGrupos = array();
+		$grupos = Recurso::all()->filter(function($recurso) use (&$nombreGrupos) {
+			if ( in_array($recurso->grupo, $nombreGrupos) == false) {
+				$nombreGrupos[] = $recurso->grupo; 
+				return true;
+				}	
+			return false;
+		});
 		
 		//se filtran para obtener sólo aquellos con acceso para el usuario logeado
 		$groupWithAccess = array();
@@ -245,7 +258,7 @@ class CalendarController extends BaseController {
 		$dropdown = Auth::user()->dropdownMenu();
 
 		//se devuelve la vista calendario.
-		return View::make('Calendarios')->with('day',$day)->with('numMonth',$numMonth)->with('year',$year)->with('tCaption',$tCaption)->with('tHead',$tHead)->with('tBody',$tBody)->with('nh',$nh)->with('viewActive',$viewActive)->with('uvusUser',$uvus)->nest('sidebar','sidebar',array('msg' => $msg,'grupos' => $groupWithAccess))->nest('dropdown',$dropdown)->nest('modaldescripcion','modaldescripcion')->nest('modalMsg','modalMsg');
+		return View::make('calendarios')->with('day',$day)->with('numMonth',$numMonth)->with('year',$year)->with('tCaption',$tCaption)->with('tHead',$tHead)->with('tBody',$tBody)->with('nh',$nh)->with('viewActive',$viewActive)->with('uvusUser',$uvus)->nest('sidebar','sidebar',array('msg' => $msg,'grupos' => $groupWithAccess))->nest('dropdown',$dropdown)->nest('modaldescripcion','modaldescripcion')->nest('modalMsg','modalMsg');
 	}
 
 	//Ajax functions

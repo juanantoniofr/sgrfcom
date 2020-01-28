@@ -23,7 +23,8 @@ class UsersController extends BaseController {
     public function ajaxGetSanciones(){
 
         //Input
-        $uvus = Input::get('uvus','');
+        //$uvus = Input::get('uvus','');
+        $dni = Input::get('dni','');
         
         //Ouput
         $resultado = array( 'msg' => '',
@@ -32,10 +33,13 @@ class UsersController extends BaseController {
                         );
 
         //Validate Inputs
-        $inputs = array( 'uvus' => $uvus );
-        $rules = array( 'uvus' => 'required|exists:users,username' );
+        $inputs = array(    //'uvus'  => $uvus,
+                            'dni'   => $dni, );
+        $rules = array( //'uvus' => 'required|exists:users,username'
+                        'dni' => 'required|exists:users,dni'
+                        );
         $messagesError = array( 'required'  => ' El campo <strong>:attribute</strong> es obligatorio.',
-                                'exists'    => 'UVUS <b>' . $uvus .'</b> no encontrado en la Base de Datos');
+                                'exists'    => 'DNI <b>' . $dni .'</b> no encontrado en la Base de Datos');
 
         $validator = Validator::make($inputs, $rules, $messagesError);
         
@@ -49,18 +53,18 @@ class UsersController extends BaseController {
             return $resultado;
         }
 
-        $user = User::where('username','=',$uvus)->first(); //debe haber solo uno, username es campo "Unique"
+        $user = User::where('dni','=',$dni)->first(); //debe haber solo uno, username es campo "Unique"
 
         if ( empty($user) ){
 
-            $resultado['msg'] = '<li>Usuario con UVUS <b>'. $uvus .'</b> no encontrado</li>';
+            $resultado['msg'] = '<li>Usuario con UVUS <b>'. $dni .'</b> no encontrado</li>';
             return $resultado;
         }
 
 
         if ( $user->sancionado() == false ) {
 
-            $resultado['msg'] = '<li>Usuario UVUS <b>"'. $uvus .'"</b> no tiene ninguna sanción</li>';
+            $resultado['msg'] = '<li>Usuario con dni <b>"'. $dni .'"</b> no tiene ninguna sanción</li>';
             $resultado['exito'] = true;
             $resultado['tienesancion'] = false;
             return $resultado;
@@ -184,35 +188,36 @@ class UsersController extends BaseController {
         return Redirect::back();
     }
 
-  public function listUsers(){
+    public function listUsers(){
       
-      $sortby = Input::get('sortby','username');
-      $order = Input::get('order','asc');
-      $search = Input::get('search','');
-      $veractivados = Input::get('veractivados',0);
-      $verdesactivados = Input::get('verdesactivados',0);
-      $colectivo = Input::get('colectivo','');
-      $perfil = Input::get('perfil','');
+        $sortby = Input::get('sortby','username');
+        $order = Input::get('order','asc');
+        $search = Input::get('search','');
+        $veractivados = Input::get('veractivados',0);
+        $verdesactivados = Input::get('verdesactivados',0);
+        $colectivo = Input::get('colectivo','');
+        $perfil = Input::get('perfil','');
+        $dni = Input::get('dni','');
+        $sancionados = Input::get('sancionados',false);
+
+        $estados = array('-1');//ver usuarios activos (default)
+        $userFilterestado = array();
+        if (Input::get('veractivados',0)) {$userFilterestado[] = '1';$veractivados = 1;}
+        if (Input::get('verdesactivados',0)) {$userFilterestado[] = '0';$verdesactivados = 1;}
+        if (!empty($userFilterestado)) $estados = $userFilterestado;//si usuario filtra --> sobreescribe opciones
+      
+        $offset = Input::get('offset','15');
+      
+        $usuarios = User::where('username','like',"%$search%")->where('dni','like','%'.$dni.'%')->whereIn('estado',$estados)->where('colectivo','like',"%".$colectivo)->where('capacidad','like',"%".$perfil)->orderby($sortby,$order)->paginate($offset);
       
 
-      $estados = array('-1');//ver usuarios activos (default)
-      $userFilterestado = array();
-      if (Input::get('veractivados',0)) {$userFilterestado[] = '1';$veractivados = 1;}
-      if (Input::get('verdesactivados',0)) {$userFilterestado[] = '0';$verdesactivados = 1;}
-      if (!empty($userFilterestado)) $estados = $userFilterestado;//si usuario filtra --> sobreescribe opciones
-      
-      $offset = Input::get('offset','15');
-      
-      //if ($perfil == 0) $perfil = '';
+        
 
-      $usuarios = User::where('username','like',"%$search%")->whereIn('estado',$estados)->where('colectivo','like',"%".$colectivo)->where('capacidad','like',"%".$perfil)->orderby($sortby,$order)->paginate($offset);
-      
+        $colectivos = Config::get('options.colectivos');
+        $perfiles = Config::get('options.perfiles');
 
-      $colectivos = Config::get('options.colectivos');
-      $perfiles = Config::get('options.perfiles');
-
-      return View::make('admin.userList')->with(compact('usuarios','sortby','order','veractivados','verdesactivados'))->nest('dropdown',Auth::user()->dropdownMenu())->nest('menuUsuarios','admin.menuUsuarios',compact('veractivados','verdesactivados','colectivo','colectivos','perfil','perfiles'))->nest('modalAddUser','admin.userModalAdd')->nest('modalSancionaUser','admin.userModalSanciona')->nest('modalEliminaSancion','admin.userModalEliminaSancion');
-  }
+        return View::make('admin.userList')->with(compact('usuarios','sortby','order','veractivados','verdesactivados'))->nest('dropdown',Auth::user()->dropdownMenu())->nest('menuUsuarios','admin.menuUsuarios',compact('veractivados','verdesactivados','colectivo','colectivos','perfil','perfiles'))->nest('modalAddUser','admin.userModalAdd')->nest('modalSancionaUser','admin.userModalSanciona')->nest('modalEliminaSancion','admin.userModalEliminaSancion');
+    }
 
     public function delete(){
     

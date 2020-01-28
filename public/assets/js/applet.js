@@ -16,7 +16,7 @@ $(function(e){
 		if ($('#dni').html() != ""){
 			
 			getReservas();
-			setSanciones();
+			//getSanciones();
 		}
 		
 		if (getUvus() != $('#uvus').html()) {
@@ -30,21 +30,24 @@ $(function(e){
 
 	
 	//Input
-	$('#searchByUvus').on('click',function(e){
+	$('#searchByDni').on('click',function(e){
 		
 		e.preventDefault();
 		e.stopPropagation();
 		resetmsg();
+		
+		$('#dni').html('abrcamgar').change();
 		getSanciones();
 	});
 
 	function getSanciones(){
 		
 		showGifEspera();
+		//alert($('#inputDni').val());
 		$.ajax({
 				type: "GET",
 				url: "ajaxGetSanciones",
-				data: {uvus:$('#inputUvus').val()},
+				data: {dni:$('#inputDni').val()},
 
 				success: function($respuesta){
 					
@@ -112,17 +115,24 @@ $(function(e){
 						//$('#btnNuevaReserva').addClass('disabled');	
 					}
 					else {
-						$('#btnNuevaReserva').removeClass('disabled');	
-						$('#resultsearch').html(respuesta).fadeIn('slow');//.fadeIn('slow');
-						$('#divSearch').fadeIn('slow');
-						$('.reserva').on('click',function(e){
-													e.preventDefault();
-													if ($(this).hasClass('disabled')) {
-														$('#update').modal('show');
-														//$('#btnUpdateList').fadeOut('slow').fadeIn('slow');
-													}
-													else launchDataModal($(this).data('idevento'),$(this).data('idserie'),$(this).data('fechaevento'),$(this).data('uvus'),$(this).data('recurso'),$(this).data('observaciones'));													
-												});
+
+						if (typeof respuesta['sancionado'] != "undefined"){
+							if ( respuesta['sancionado'] == true)
+								$('#resultsearch').html(respuesta['sancion']).fadeIn('slow');	
+						}	
+						else{
+							$('#btnNuevaReserva').removeClass('disabled');	
+							$('#resultsearch').html(respuesta).fadeIn('slow');//.fadeIn('slow');
+							$('#divSearch').fadeIn('slow');
+							$('.reserva').on('click',function(e){
+								e.preventDefault();
+								if ($(this).hasClass('disabled')) {
+									$('#update').modal('show');
+									//$('#btnUpdateList').fadeOut('slow').fadeIn('slow');
+								}
+								else launchDataModal($(this).data('idevento'),$(this).data('idserie'),$(this).data('fechaevento'),$(this).data('uvus'),$(this).data('recurso'),$(this).data('observaciones'));													
+							});
+						}
 					}
 					 
 		    },
