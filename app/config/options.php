@@ -43,6 +43,8 @@ return array (
 	'gestionDesatendida' => 'Desatendida (sin validación)', 
 	'colectivos' => array('PAS','PDI','Alumno'),
 	'userdelegacionalumnos' => array('sarpende','pabgonrob'),
+	'aviso' => array( 'titulo' => 'aviso',
+					),
 
 	);
 	

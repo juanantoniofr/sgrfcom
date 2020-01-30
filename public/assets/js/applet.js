@@ -9,23 +9,24 @@ $(function(e){
 		//$('#update').close('show');
 	});
 	
-	//Applet 
+	//Applet (dni es UVUS, el applet espera encontrar un id = #dni, pero escribe como value el Uvus de usuario)
 	$('#dni').on('change',function(){
 		
 		resetmsg();
+		//alert($('#dni').html());
 		if ($('#dni').html() != ""){
 			
 			getReservas();
-			//getSanciones();
+			
 		}
 		
-		if (getUvus() != $('#uvus').html()) {
+		//if (getUvus() != $('#uvus').html()) {
 		
-			$('div#reservas #uvus').html(getUvus()).fadeIn('slow');
-			$('div#sanciones #uvus').html(getUvus()).fadeIn('slow');
-			$('div#sanciones #inputUvus').val(getUvus());
-		}
-		$('#uvusBtn').html(getUvus());
+			$('div#reservas #uvus').html($('#dni').html()).fadeIn('slow');
+			$('div#sanciones #uvus').html($('#dni').html()).fadeIn('slow');
+			
+		//}
+		$('#uvusBtn').html($('#dni').html());
 	});
 
 	
@@ -36,17 +37,21 @@ $(function(e){
 		e.stopPropagation();
 		resetmsg();
 		
-		$('#dni').html('abrcamgar').change();
-		getSanciones();
+		getUvusByDni(); //OBtiene UVUS desde dni y dispara evento change en campo dni
+		//$('#dni').html(uvus).change(); // dni = 47336059
+		//getSanciones();
+		//getReservas();
 	});
 
-	function getSanciones(){
+
+
+	function getUvusByDni(){
 		
 		showGifEspera();
-		//alert($('#inputDni').val());
+		
 		$.ajax({
 				type: "GET",
-				url: "ajaxGetSanciones",
+				url: "ajaxGetUvusByDni",
 				data: {dni:$('#inputDni').val()},
 
 				success: function($respuesta){
@@ -58,7 +63,14 @@ $(function(e){
                     	$('div#sanciones div#error').html('<ul>' + $respuesta['msg'] + '</ul>');
                     	$('div#sanciones div#error').fadeIn('3500');
                 	}
-                	else{
+                	else {
+                		
+                		$('#dni').html($respuesta['uvus']).change();
+                	}
+                	hideGifEspera();
+
+                		
+                	/*else{
 
                 		if ( $respuesta['tienesancion'] == true ){
 							
@@ -70,9 +82,9 @@ $(function(e){
                 			$('div#sanciones div#success').html('<ul>' + $respuesta['msg'] + '</ul>');
                     	    $('div#sanciones div#success').html($respuesta['sanciones']).fadeIn('3500');	
                 		}
-                		
-                    } 
-                    hideGifEspera();
+                	
+                    }*/	 
+                    
 		    	},
 				error: function(xhr, ajaxOptions, thrownError){
 						hideGifEspera();
@@ -81,28 +93,22 @@ $(function(e){
 	  });
 	}
 
-
 	function resetmsg(){
 		$('.msgResultado').html('').fadeOut('slow');
-		/*$('div#reservas #errorgetEvents').html('').fadeOut('slow');
-		$('#error').html('').fadeOut('slow');
-		$('#success').html('').fadeOut('slow');
-		$('#nohayreservas').html('').fadeOut('slow');
-		$('#divSearch').html('').fadeOut('slow');*/
 		$('#resultsearch').html('');
 	}
 
 	function getReservas(){
 		
+		//alert('Uvus = ' + getUvus());
 		$.ajax({
 				type: "GET",
 				url: "search",
 				data: {username:getUvus()},
 
 				success: function(respuesta){
-					//console.log(respuesta);
 					
-					
+					//console.log(respuesta);					
 					if (respuesta === '-1'){
 						
 						$('#errorgetEvents span').html('Usuario no leido....');
@@ -117,8 +123,16 @@ $(function(e){
 					else {
 
 						if (typeof respuesta['sancionado'] != "undefined"){
-							if ( respuesta['sancionado'] == true)
-								$('#resultsearch').html(respuesta['sancion']).fadeIn('slow');	
+							
+							//console.log(respuesta['sancion']);
+							if ( respuesta['sancionado'] == true){
+
+								$('div#sanciones div#warning').html('<ul>' + respuesta['sancion'] + '</ul>');
+                    			$('div#sanciones div#warning').html(respuesta['sancion']).fadeIn('3500');
+                    			//$('#resultsearch').html(respuesta['sancion']).fadeIn('slow');
+							}
+								
+									
 						}	
 						else{
 							$('#btnNuevaReserva').removeClass('disabled');	
@@ -128,7 +142,6 @@ $(function(e){
 								e.preventDefault();
 								if ($(this).hasClass('disabled')) {
 									$('#update').modal('show');
-									//$('#btnUpdateList').fadeOut('slow').fadeIn('slow');
 								}
 								else launchDataModal($(this).data('idevento'),$(this).data('idserie'),$(this).data('fechaevento'),$(this).data('uvus'),$(this).data('recurso'),$(this).data('observaciones'));													
 							});

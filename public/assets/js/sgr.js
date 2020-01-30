@@ -12,6 +12,21 @@ $(function(e) {
 		$( this ).next().toggle('slow');
 	});
 
+
+	 $( document ).ready( function(){
+	
+	 		//alert($('#msg-inicio-sesion').data('mostrar'));
+	 		console.log($('#msg-inicio-sesion').data('mostrar'));
+	 		
+	 		if ( $('#msg-inicio-sesion').data('mostrar') == true ) {
+	 			
+	 			//mostar venta modal
+	 			$('#modalMsg').modal('show');
+	 			//Estabelcer a false
+	 			$('#msg-inicio-sesion').data('mostrar',false);
+	 		}
+	 });
+
 });
 
 function showGifEspera(){

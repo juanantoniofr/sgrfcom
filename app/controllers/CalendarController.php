@@ -93,16 +93,17 @@ class CalendarController extends BaseController {
 
 						
 		$user = User::where('username','=',$username)->first();
-
+		if (empty($user)) return '1';//false
 		
 		if ($user->sancionado()){
 			$respuesta['sancionado'] = true;
-			$respuesta['sancion'] = View::make('tecnico.sanciones',compact($user->sanciones()));
+			$respuesta['sancion'] = (String) View::make('tecnico.sanciones',array('sanciones' => $user->sanciones));
+			//$respuesta['uvus'] = $user->username;
 			return $respuesta;
 		}
 		
 		$today = date('Y-m-d');
-		if (empty($user)) return '1';//false
+		
 		
 		$events = Evento::where('user_id','=',$user->id)->where('fechaFin','>=',$today)->groupby('evento_id')->orderby('fechaEvento','asc')->orderby('recurso_id','asc')->get();
 		return View::make('tecnico.resultSearch',compact('events','username'));
@@ -258,7 +259,7 @@ class CalendarController extends BaseController {
 		$dropdown = Auth::user()->dropdownMenu();
 
 		//se devuelve la vista calendario.
-		return View::make('calendarios')->with('day',$day)->with('numMonth',$numMonth)->with('year',$year)->with('tCaption',$tCaption)->with('tHead',$tHead)->with('tBody',$tBody)->with('nh',$nh)->with('viewActive',$viewActive)->with('uvusUser',$uvus)->nest('sidebar','sidebar',array('msg' => $msg,'grupos' => $groupWithAccess))->nest('dropdown',$dropdown)->nest('modaldescripcion','modaldescripcion')->nest('modalMsg','modalMsg');
+		return View::make('calendarios')->with('day',$day)->with('numMonth',$numMonth)->with('year',$year)->with('tCaption',$tCaption)->with('tHead',$tHead)->with('tBody',$tBody)->with('nh',$nh)->with('viewActive',$viewActive)->with('uvusUser',$uvus)->nest('sidebar','sidebar',array('msg' => $msg,'grupos' => $groupWithAccess))->nest('dropdown',$dropdown)->nest('modaldescripcion','modaldescripcion')->nest('modalMsg','modalMsg')->nest('modalAvisoUser','avisos.modalAvisoUser',array('titulo' => Config::get('aviso.titulo'), 'msg' => Config::get('aviso.msg')));
 	}
 
 	//Ajax functions

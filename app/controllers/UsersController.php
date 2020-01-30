@@ -13,14 +13,14 @@ class UsersController extends BaseController {
     }
 
     /**
-        * llamada ajax, devuelve las sanciones de usaurio identificado su UVUS
+        * llamada ajax, devuelve UVUS (usrname) del identificado por DNI
         * 
-        * @param String Input::get('uvus',''); 
+        * @param String Input::get('dni',''); 
         *
         * @return Array $respuesta  
     */
 
-    public function ajaxGetSanciones(){
+    public function ajaxGetUvusByDni(){
 
         //Input
         //$uvus = Input::get('uvus','');
@@ -29,7 +29,7 @@ class UsersController extends BaseController {
         //Ouput
         $resultado = array( 'msg' => '',
                             'exito' => false,
-                            'tienesancion' => true,
+                            'uvus' => '',
                         );
 
         //Validate Inputs
@@ -62,7 +62,7 @@ class UsersController extends BaseController {
         }
 
 
-        if ( $user->sancionado() == false ) {
+        /*if ( $user->sancionado() == false ) {
 
             $resultado['msg'] = '<li>Usuario con dni <b>"'. $dni .'"</b> no tiene ninguna sanción</li>';
             $resultado['exito'] = true;
@@ -72,7 +72,10 @@ class UsersController extends BaseController {
 
             
         $resultado['msg'] = (String) View::make( 'tecnico.sanciones', ['sanciones' => $user->sanciones] );
+        $resultado['exito'] = true;*/
+
         $resultado['exito'] = true;
+        $resultado['uvus'] = $user->username;
 
         return $resultado;
 
@@ -198,7 +201,7 @@ class UsersController extends BaseController {
         $colectivo = Input::get('colectivo','');
         $perfil = Input::get('perfil','');
         $dni = Input::get('dni','');
-        $sancionados = Input::get('sancionados',false);
+        $sancionados = Input::get('sancionados',0);
 
         $estados = array('-1');//ver usuarios activos (default)
         $userFilterestado = array();
@@ -210,13 +213,24 @@ class UsersController extends BaseController {
       
         $usuarios = User::where('username','like',"%$search%")->where('dni','like','%'.$dni.'%')->whereIn('estado',$estados)->where('colectivo','like',"%".$colectivo)->where('capacidad','like',"%".$perfil)->orderby($sortby,$order)->paginate($offset);
       
+        
+        if ($sancionados == 1) {
+            
+            $usuarios = User::all()->filter(function($user){
+
+                    return $user->sancionado(); 
+                });
+            
+            //$usuarios = $usuarios->paginate($offset);
+
+        }
 
         
 
         $colectivos = Config::get('options.colectivos');
         $perfiles = Config::get('options.perfiles');
 
-        return View::make('admin.userList')->with(compact('usuarios','sortby','order','veractivados','verdesactivados'))->nest('dropdown',Auth::user()->dropdownMenu())->nest('menuUsuarios','admin.menuUsuarios',compact('veractivados','verdesactivados','colectivo','colectivos','perfil','perfiles'))->nest('modalAddUser','admin.userModalAdd')->nest('modalSancionaUser','admin.userModalSanciona')->nest('modalEliminaSancion','admin.userModalEliminaSancion');
+        return View::make('admin.userList')->with(compact('usuarios','sortby','order','veractivados','verdesactivados','sancionados'))->nest('dropdown',Auth::user()->dropdownMenu())->nest('menuUsuarios','admin.menuUsuarios',compact('veractivados','verdesactivados','colectivo','colectivos','perfil','perfiles'))->nest('modalAddUser','admin.userModalAdd')->nest('modalSancionaUser','admin.userModalSanciona')->nest('modalEliminaSancion','admin.userModalEliminaSancion');
     }
 
     public function delete(){

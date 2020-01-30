@@ -10,7 +10,10 @@
             @endif
             <div class="form-group ">
                 <a href="{{route('users',array('veractivados' => 1))}}" class="btn btn-primary" title="Listar usuarios"><i class="fa fa-list fa-fw"></i> Listar cuentas activas</a>
-            </div>                              
+            </div>
+            <div class="form-group ">
+                <a href="{{route('users',array('veractivados' => 1, 'sancionados' => 1))}}" class="btn btn-danger" title="Listar usuarios"><i class="fa fa-list fa-fw"></i> Listar sancionados</a>
+            </div>                             
         </form>
         
         

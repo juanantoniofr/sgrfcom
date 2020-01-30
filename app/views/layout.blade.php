@@ -76,6 +76,7 @@
   </div>
 </div>
 
+
 @yield('modal')
 <!-- scripts -->
 

@@ -38,8 +38,8 @@ App::after(function($request, $response)
 //Developed
 Route::filter('auth', function()
 {
-	$user = User::find('256'); //pepelu
-	//$user = User::find('2823'); //alumno usrname = abrcamgar
+	//$user = User::find('256'); //pepelu
+	$user = User::find('2823'); //alumno usrname = abrcamgar
 	Auth::login($user);
 	//if (Auth::guest()) return Redirect::to(route('loginsso'));
 	

@@ -202,15 +202,16 @@
                                         </a>
                                     @endif
                                     
-                                    <a href="" data-nombre="{{$user->nombre}} {{$user->apellidos}}" data-uvus="{{$user->username}}" data-correo="{{$user->email}}" data-id="{{$user->id}}" data-idsancion="{{$user->idSancion()}}" data-motivosancion = "{{$user->motivoSancion()}}"  data-ffinsancion="{{$user->fFinSancion()}}" class="sanciona-usuario" >
+                                    @if ( Auth::user()->puedeSancionar() )
+                                        <a href="" data-nombre="{{$user->nombre}} {{$user->apellidos}}" data-uvus="{{$user->username}}" data-correo="{{$user->email}}" data-id="{{$user->id}}" data-idsancion="{{$user->idSancion()}}" data-motivosancion = "{{$user->motivoSancion()}}"  data-ffinsancion="{{$user->fFinSancion()}}" class="sanciona-usuario" >
                                             <i class="fa fa-unlock fa-fw text-info"  title='Sancionar'></i>
-                                    </a>
-                                    @if ($user->sancionado())
-                                        <a href="" data-nombre="{{$user->nombre}} {{$user->apellidos}}" data-uvus="{{$user->username}}" data-correo="{{$user->email}}" data-id="{{$user->id}}" data-idsancion="{{$user->idSancion()}}" data-motivosancion = "{{$user->motivoSancion()}}"  data-ffinsancion="{{$user->fFinSancion()}}" class="eliminaSancion">  
-                                            <i class="fa fa-lock fa-fw text-danger" title='Quitar Sanción'></i>
                                         </a>
+                                        @if ($user->sancionado())
+                                            <a href="" data-nombre="{{$user->nombre}} {{$user->apellidos}}" data-uvus="{{$user->username}}" data-correo="{{$user->email}}" data-id="{{$user->id}}" data-idsancion="{{$user->idSancion()}}" data-motivosancion = "{{$user->motivoSancion()}}"  data-ffinsancion="{{$user->fFinSancion()}}" class="eliminaSancion">  
+                                                <i class="fa fa-lock fa-fw text-danger" title='Quitar Sanción'></i>
+                                            </a>
+                                        @endif
                                     @endif
-                             
                                 </td>
                                 
                                 <td> {{ $user->colectivo }} </td>
@@ -229,8 +230,9 @@
                     </tbody>
                 </table>
 
-                {{$usuarios->appends(Input::except('page','result'))->links();}}
-                    
+                @if ($sancionados != 1 )
+                    {{$usuarios->appends(Input::except('page','result'))->links();}}
+                @endif
             </div><!-- /.panel-body -->
 
         </div><!-- /.panel-default -->

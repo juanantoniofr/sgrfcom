@@ -52,13 +52,14 @@ $(function(e){
         e.preventDefault();
         e.stopPropagation();
         
+        showGifEspera();
         $.ajax({
             type: "GET",
             url: "ajaxSancionaUsuario", /* terminar en controllador */
             data: {userId:$('div#modal-sanciona-usuario #userId').val(),motivoSancion:$.trim($('div#modal-sanciona-usuario #motivo-sancion').val()),f_fin:$('div#modal-sanciona-usuario input[name="f_fin"]').val()},
             success: function($respuesta){
                 
-                console.log($respuesta);
+                //console.log($respuesta);
 
                 if ( $respuesta['exito'] == false ){
                     

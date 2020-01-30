@@ -98,6 +98,20 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		return '';	
 	}
 
+	/**
+		*
+		* True so el usuario puede sancionar 
+		*
+		* @return Booleano 
+	*/
+	public function puedeSancionar(){
+
+		if ( $this->username == 'falco' || $this->username == 'pasino' || $this->capacidad == 4)
+			return true;
+
+		return false;
+	}
+
 	//devuelve los recurso que valida
 	public function supervisa()
     {

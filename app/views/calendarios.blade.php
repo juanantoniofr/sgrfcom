@@ -57,10 +57,7 @@
         </div>
      </div>
 
-
       
-
-          
       @if(isset($msg) && !empty($msg))
         <div class="alert alert-danger col-md-12 text-center" role="alert" id="alert_msg" data-nh="{{$nh}}"><strong>{{$msg}}</strong></div> 
       @else
@@ -72,10 +69,8 @@
       <div style = "display:none" class="alert alert-warning col-md-12 text-center" role="alert" id="warning"></div>
     
 
-
-      
       <div id="loadCalendar"> 
-      @if ( Auth::user()->capacidad == 4 ) {{ View::make('avisos.aviso') }} @endif 
+       
         <table class="pull-left " style = "table-layout: fixed;width: 100%;" id="tableCalendar" >
           <caption id="tableCaption">{{$tCaption}}</caption>
           <thead id="tableHead">{{$tHead}}</thead>
@@ -380,13 +375,16 @@
 </div>
 <!-- ./modal print -->
 
-
-
-  {{$modaldescripcion or ''}}
-  {{$modalMsg         or ''}}
+<div id="msg-inicio-sesion" data-mostrar='true' >
+  {{ $modalAvisoUser or '' }}
+</div>  
+  {{ $modaldescripcion or '' }}
+  {{ $modalMsg         or '' }}
 
  @stop
 @section('js')
-  {{HTML::script('assets/js/calendar.js')}}
-  {{HTML::script('assets/js/imprimir.js')}}
+
+  {{ HTML::script('assets/js/calendar.js') }}
+  {{ HTML::script('assets/js/sgr.js') }}
+  {{ HTML::script('assets/js/imprimir.js') }}
 @stop
