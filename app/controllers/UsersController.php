@@ -22,6 +22,8 @@ class UsersController extends BaseController {
 
     public function ajaxGetUvusByDni(){
 
+
+        
         //Input
         //$uvus = Input::get('uvus','');
         $dni = Input::get('dni','');
@@ -78,7 +80,6 @@ class UsersController extends BaseController {
         $resultado['uvus'] = $user->username;
 
         return $resultado;
-
     }
 
 
@@ -96,6 +97,7 @@ class UsersController extends BaseController {
         $intIdUser = Input::get('userId','');
         $strMotivoSancion = Input::get('motivoSancion','');
         $strF_fin = Input::get('f_fin','');
+        $enviaCorreo = Input::get('mail',false);
 
         //Ouput
         $resultado = array( 'msg' => '',
@@ -133,7 +135,14 @@ class UsersController extends BaseController {
         $sancion = $user->sanciones()->save($sancion);
 
         $resultado['exito'] = true;
+        //MailToUSer
 
+        if($enviaCorreo == true){
+
+            $sgrMail = new sgrMail();
+            $sgrMail->notificaSancion($user->email,$strMotivoSancion,$strF_fin);
+        }
+        
         Session::put('msgExitoSancion', 'Sanción establecida con éxito' );
        
         return $resultado;
@@ -184,8 +193,13 @@ class UsersController extends BaseController {
         }
 
         //Eliminar sanción
+        $user = User::find($idUser);
+        $sancionUser = Sancion::find($idSancion); 
         $sancion = User::find($idUser)->sanciones()->where('id','=',$idSancion)->delete();
         
+        //MailToUSer
+        $sgrMail = new sgrMail();
+        $sgrMail->notificaSancionDelete($user->email,$sancionUser->motivo,$sancionUser->f_fin);
 
         Session::put('msgExitoSancion', 'Sanción eliminada con éxito' );
         return Redirect::back();
@@ -255,69 +269,67 @@ class UsersController extends BaseController {
         return View::make('tecnico.index')->nest('dropdown',$dropdown)->nest('addModal','tecnico.addReservaModal');
     }
  
-  public function newUser(){
+    public function newUser(){
 
-      return View::make('admin.userNew')->with("user",Auth::user())->nest('dropdown',Auth::user()->dropdownMenu());
-  }
+        return View::make('admin.userNew')->with("user",Auth::user())->nest('dropdown',Auth::user()->dropdownMenu());
+    }
  
-  public function activeUserbyajax(){
+    public function activeUserbyajax(){
 
-    $result = array('success' => false);
-    
-    $username = Input::get('username','');
-    $colectivo = Input::get('colectivo','');
-    $caducidad = Input::get('caducidad','');
-    $observaciones = Input::get('observaciones','');
+        $result = array('success' => false);
+        
+        $username = Input::get('username','');
+        $colectivo = Input::get('colectivo','');
+        $caducidad = Input::get('caducidad','');
+        $observaciones = Input::get('observaciones','');
 
-    $rol = Input::get('rol','1');
-    //$id = Input::get('id','');
+        $rol = Input::get('rol','1');
+        
+        $user = User::where('username','=',$username)->first();
 
-    $user = User::where('username','=',$username)->first();
-
-    if (!empty($user)) {
+        if (!empty($user)) {
       
-      $user->estado = true;
-      $user->colectivo = $colectivo;
-      $user->capacidad = $rol;
-      $user->observaciones = $observaciones;
-      if (empty($caducidad)) $caduca = date('Y-m-d');
-      else $caduca = Date::toDB($caducidad);
-      $user->caducidad = $caduca;
-      $user->save();
+            $user->estado = true;
+            $user->colectivo = $colectivo;
+            $user->capacidad = $rol;
+            $user->observaciones = $observaciones;
+            if (empty($caducidad)) $caduca = date('Y-m-d');
+            else $caduca = Date::toDB($caducidad);
+            $user->caducidad = $caduca;
+            $user->save();
 
-      
-      $this->cierraNotificacion($username);
-      //mail to User by Activate
-      $sgrMail = new sgrMail();
-      $sgrMail->notificaActivacionUVUS($user->id);            
-      
-      $result['success'] = true;
+              
+            $this->cierraNotificacion($username);
+            //mail to User by Activate
+            $sgrMail = new sgrMail();
+            $sgrMail->notificaActivacionUVUS($user->id);            
+          
+            $result['success'] = true;
 
+        }
+
+        return $result;
     }
 
-    return $result;
-  
-  }
+    public function ajaxDelete(){
 
-  public function ajaxDelete(){
+        $result = array('success' => false);
+        
+        $username = Input::get('username','');
+        $colectivo = Input::get('colectivo','');
+        $caducidad = Input::get('caducidad','');
+        $rol = Input::get('rol','1');
+        
 
-    $result = array('success' => false);
-    
-    $username = Input::get('username','');
-    $colectivo = Input::get('colectivo','');
-    $caducidad = Input::get('caducidad','');
-    $rol = Input::get('rol','1');
-    
+        $user = User::where('username','=',$username)->first();
 
-    $user = User::where('username','=',$username)->first();
-
-    if (!empty($user)) {
-      Notificacion::where('source','=',$username)->delete();
-      $user->delete();
-      $result['success'] = true;
+        if (!empty($user)) {
+          Notificacion::where('source','=',$username)->delete();
+          $user->delete();
+          $result['success'] = true;
+        }
+        return $result;
     }
-    return $result;
-  }
 
 
   public function desactiveUserbyajax(){

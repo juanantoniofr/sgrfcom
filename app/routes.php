@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 |
 */
 
+Route::get('estadisticas.html',array('uses' => 'EstadisticasOcupacionController@index'));
+
 Route::get('loginerror',array('as' => 'msg',function(){
 	$msg = Session::get('msg');//Privilegios insuficientes';
 	$title = Session::get('title');//Error de acceso';

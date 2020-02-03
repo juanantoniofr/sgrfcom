@@ -51,12 +51,13 @@ $(function(e){
 
         e.preventDefault();
         e.stopPropagation();
-        
+        alert($('#envia-correo').is(":checked"));
+        console.log($('#envia-correo').val());
         showGifEspera();
         $.ajax({
             type: "GET",
             url: "ajaxSancionaUsuario", /* terminar en controllador */
-            data: {userId:$('div#modal-sanciona-usuario #userId').val(),motivoSancion:$.trim($('div#modal-sanciona-usuario #motivo-sancion').val()),f_fin:$('div#modal-sanciona-usuario input[name="f_fin"]').val()},
+            data: {userId:$('div#modal-sanciona-usuario #userId').val(),motivoSancion:$.trim($('div#modal-sanciona-usuario #motivo-sancion').val()),f_fin:$('div#modal-sanciona-usuario input[name="f_fin"]').val(),mail:$('#envia-correo').is(":checked")},
             success: function($respuesta){
                 
                 //console.log($respuesta);

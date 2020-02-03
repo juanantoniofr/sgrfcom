@@ -142,15 +142,51 @@ class sgrMail {
 			$m->to('juanantonio.fr@gmail.com')->subject($s);
 		});
 
-		//$validadores = User::where('capacidad','=',5)->where('email','!=','')->get(); //todos  los validadores
-		//Notifica validadores
-		//foreach ($validadores as $validador) {
-		//	if ( !empty($validador->email) )
-			
-		//}
-
-
 	}//fin notificaNuevoEvento
+
+	public function notificaSancion($mailto,$motivo,$f_fin){
+
+		//$data = array('evento' => serialize($evento),'solicitante' => Auth::user()->nombre .' '. Auth::user()->apellidos);
+		$data = array(	'motivo' 	=> $motivo,
+						'f_fin'		=> $f_fin);
+
+		$to = $mailto;				
+				
+		Mail::queue(array('html' => 'emails.sancion'),$data,function($m)  {
+			
+			$subject = 	date('d-m-Y H:i') ." SGR Notificación sanción";	
+			$m->to('juanantonio.fr@gmail.com')->subject($subject);
+		});
+
+		Mail::queue(array('html' => 'emails.sancion'),$data,function($m) use($mailto){
+			
+			$subject = 	date('d-m-Y H:i') ." SGR Notificación sanción";
+			$m->to($mailto)->subject($subject);
+		});
+
+	}
+
+	public function notificaSancionDelete($mailto,$motivo,$f_fin){
+
+		//$data = array('evento' => serialize($evento),'solicitante' => Auth::user()->nombre .' '. Auth::user()->apellidos);
+		$data = array(	'motivo' 	=> $motivo,
+						'f_fin'		=> $f_fin);
+
+		$to = $mailto;				
+				
+		Mail::queue(array('html' => 'emails.sanciondelete'),$data,function($m)  {
+			
+			$subject = 	date('d-m-Y H:i') ." SGR Notificación sanción eliminada";	
+			$m->to('juanantonio.fr@gmail.com')->subject($subject);
+		});
+
+		Mail::queue(array('html' => 'emails.sanciondelete'),$data,function($m) use($mailto){
+			
+			$subject = 	date('d-m-Y H:i') ." SGR Notificación sanción eliminada";
+			$m->to($mailto)->subject($subject);
+		});
+
+	}
 
 	public function noticicaDocEmergencias($msg){
 		//Notifica solicitante
